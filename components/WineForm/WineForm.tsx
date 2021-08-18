@@ -68,7 +68,9 @@ const WineForm: React.FC<Props> = ({
       formRef.current?.setFieldsValue(selectedWine);
     } else {
       formRef.current?.resetFields();
-      formRef.current?.setFieldsValue({ id: nextId });
+      setTimeout(() => {
+        formRef.current?.setFieldsValue({ id: nextId });
+      }, 100);
     }
   }, [nextId, selectedWine]);
 
@@ -141,7 +143,7 @@ const WineForm: React.FC<Props> = ({
           },
         ]}
       >
-        <InputNumber />
+        <InputNumber min={1} />
       </Form.Item>
       <Form.Item label={t("Sugar content")} name="sugar_content">
         <SugarSelect />
