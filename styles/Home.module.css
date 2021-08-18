@@ -1,25 +1,5 @@
 .main {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1rem;
-}
-
-.content {
-  display: flex;
-  flex-direction: row;
-  gap: 1rem;
-}
-
-.wineForm {
-  flex: 2;
-}
-
-.wineTable {
-  flex: 3;
-}
-
-@media (max-width: 768px) {
-  .content {
-    flex-direction: column;
-  }
+  padding: 1rem;
 }

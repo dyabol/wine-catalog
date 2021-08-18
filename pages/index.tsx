@@ -1,3 +1,5 @@
+import { Col, Row } from "antd";
+import Card from "antd/lib/card";
 import type { NextPage } from "next";
 import Head from "next/head";
 import React from "react";
@@ -22,10 +24,18 @@ const Home: NextPage = () => {
       </Head>
       <main className={styles.main}>
         <h1 className={styles.title}>{t("Catalog of wines")}</h1>
-        <div className={styles.content}>
-          <WineFormContainer className={styles.wineForm} />
-          <WineTableContainer className={styles.wineTable} />
-        </div>
+        <Row gutter={[16, 16]}>
+          <Col flex={2}>
+            <Card className={styles.wineForm}>
+              <WineFormContainer />
+            </Card>
+          </Col>
+          <Col flex={4}>
+            <Card className={styles.wineTable}>
+              <WineTableContainer />
+            </Card>
+          </Col>
+        </Row>
       </main>
     </div>
   );
