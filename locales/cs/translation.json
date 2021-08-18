@@ -18,5 +18,8 @@
   "Semi-dry": "Polosuché",
   "Dry": "Suché",
   "Properties": "Vlastnosti",
-  "Add wine": "Přidat vzorek"
+  "Add wine": "Přidat vzorek",
+  "Save changes": "Uložit změny",
+  "Discard changes": "Zahodit změny",
+  "Action": "Akce"
 }

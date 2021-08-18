@@ -3,8 +3,10 @@ import {
   DatePicker,
   Form,
   FormInstance,
+  FormProps,
   Input,
   InputNumber,
+  Space,
 } from "antd";
 import moment from "moment";
 import React, { useCallback, useEffect, useRef } from "react";
@@ -12,8 +14,10 @@ import { useTranslation } from "react-i18next";
 import PropertiesSelect from "../PropertiesSelect/PropertiesSelect";
 import SugarSelect from "../SugarSelect/SugarSelect";
 import VarietyField from "../VarietyField/VarietyField";
+import { SaveOutlined, CloseOutlined, PlusOutlined } from "@ant-design/icons";
 
 export type Wine = {
+  id: number;
   address: string;
   name: string;
   note?: string;
@@ -27,10 +31,18 @@ export type Wine = {
 type Props = {
   className?: string;
   onFinish?: (values: Wine) => void;
+  onReset?: () => void;
   nextId: number;
+  selectedWine?: Wine;
 };
 
-const WineForm: React.FC<Props> = ({ className, onFinish, nextId }) => {
+const WineForm: React.FC<Props> = ({
+  className,
+  onFinish,
+  onReset,
+  nextId,
+  selectedWine,
+}) => {
   const { t } = useTranslation();
   const formRef = useRef<FormInstance>(null);
 
@@ -52,13 +64,25 @@ const WineForm: React.FC<Props> = ({ className, onFinish, nextId }) => {
   }, [nextId]);
 
   useEffect(() => {
+    if (selectedWine) {
+      formRef.current?.setFieldsValue(selectedWine);
+    } else {
+      formRef.current?.resetFields();
+      formRef.current?.setFieldsValue({ id: nextId });
+    }
+  }, [nextId, selectedWine]);
+
+  useEffect(() => {
     focusFirstInput();
   }, [focusFirstInput]);
 
-  const onFinishFailed = useCallback((val) => {
-    const name: string = val.errorFields[0].name[0];
-    formRef.current?.getFieldInstance(name).focus?.();
-  }, []);
+  const onFinishFailed: FormProps<Wine>["onFinishFailed"] = useCallback(
+    (val) => {
+      const name = val.errorFields[0].name[0];
+      formRef.current?.getFieldInstance(name).focus?.();
+    },
+    []
+  );
 
   return (
     <Form
@@ -72,6 +96,7 @@ const WineForm: React.FC<Props> = ({ className, onFinish, nextId }) => {
       }}
       onFinishFailed={onFinishFailed}
       onFinish={onFinishHandler}
+      onReset={onReset}
     >
       <Form.Item label={t("Id")} name="id" rules={[{ required: true }]}>
         <Input disabled={true} />
@@ -128,9 +153,20 @@ const WineForm: React.FC<Props> = ({ className, onFinish, nextId }) => {
         <Input />
       </Form.Item>
       <Form.Item>
-        <Button type="primary" htmlType="submit">
-          {t("Add wine")}
-        </Button>
+        {selectedWine ? (
+          <Space size="small">
+            <Button type="primary" htmlType="submit" icon={<SaveOutlined />}>
+              {t("Save changes")}
+            </Button>
+            <Button type="default" htmlType="reset" icon={<CloseOutlined />}>
+              {t("Discard changes")}
+            </Button>
+          </Space>
+        ) : (
+          <Button type="primary" htmlType="submit" icon={<PlusOutlined />}>
+            {t("Add wine")}
+          </Button>
+        )}
       </Form.Item>
     </Form>
   );

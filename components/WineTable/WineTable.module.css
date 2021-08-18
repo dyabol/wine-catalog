@@ -1,0 +1,6 @@
+.selected td {
+  background: #e6f7ff !important;
+}
+.selected:hover td {
+  background: #bae7ff !important;
+}
