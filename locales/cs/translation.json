@@ -1,6 +1,6 @@
 {
   "Catalog of wines": "Katalog vín",
-  "Name": "Jméno / Název",
+  "Name": "Jméno",
   "Name is required.": "Je potřeba vyplnit jméno.",
   "Address": "Adresa",
   "Address is required.": "Je potřeba vyplnit adresu.",
@@ -21,5 +21,6 @@
   "Add wine": "Přidat vzorek",
   "Save changes": "Uložit změny",
   "Discard changes": "Zahodit změny",
-  "Action": "Akce"
+  "Action": "Akce",
+  "Record id": "Číslo vzorku"
 }

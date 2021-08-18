@@ -1,8 +1,9 @@
 import { CloseCircleOutlined } from "@ant-design/icons";
 import { Button } from "antd";
-import { ColumnsType } from "antd/lib/table/Table";
+import { ColumnType } from "antd/lib/table/interface";
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { useResponsive } from "../../utils/responsiveService";
 import { Wine } from "../WineForm/WineForm";
 
 type Props = {
@@ -10,10 +11,15 @@ type Props = {
   disableActions?: boolean;
 };
 
-const useWineColumns = ({ onDelete, disableActions }: Props) => {
-  const { t } = useTranslation();
+type Column = ColumnType<Wine> & {
+  hidden?: boolean;
+};
 
-  const columns: ColumnsType<Wine> = useMemo(
+const useWineColumns = ({ onDelete, disableActions }: Props): Column[] => {
+  const { t } = useTranslation();
+  const size = useResponsive();
+
+  const columns: Column[] = useMemo(
     () => [
       {
         title: t("Id"),
@@ -29,6 +35,7 @@ const useWineColumns = ({ onDelete, disableActions }: Props) => {
         title: t("Address"),
         dataIndex: "address",
         key: "address",
+        hidden: size === "s",
       },
       {
         title: t("Variety"),
@@ -40,6 +47,7 @@ const useWineColumns = ({ onDelete, disableActions }: Props) => {
         dataIndex: "year",
         key: "year",
         render: (year: moment.Moment) => year.format("YYYY"),
+        hidden: size === "s",
       },
       {
         title: t("Action"),
@@ -57,7 +65,7 @@ const useWineColumns = ({ onDelete, disableActions }: Props) => {
         ),
       },
     ],
-    [onDelete, t]
+    [disableActions, onDelete, size, t]
   );
 
   return columns;

@@ -100,8 +100,8 @@ const WineForm: React.FC<Props> = ({
       onFinish={onFinishHandler}
       onReset={onReset}
     >
-      <Form.Item label={t("Id")} name="id" rules={[{ required: true }]}>
-        <Input disabled={true} />
+      <Form.Item label={t("Record id")} name="id" rules={[{ required: true }]}>
+        <Input readOnly={true} bordered={false} />
       </Form.Item>
       <Form.Item
         label={t("Name")}

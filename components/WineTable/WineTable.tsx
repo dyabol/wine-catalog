@@ -42,7 +42,7 @@ const WineTable: React.FC<Props> = ({
     <Table
       rowClassName={rowClassName}
       dataSource={dataSource}
-      columns={columns}
+      columns={columns.filter((c) => !c.hidden)}
       className={className}
       onRow={(record) => ({
         onClick: onRowClick(record),
