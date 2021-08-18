@@ -32,23 +32,37 @@ type Props = {
 
 const WineForm: React.FC<Props> = ({ className, onFinish, nextId }) => {
   const { t } = useTranslation();
-  const form = useRef<FormInstance>(null);
+  const formRef = useRef<FormInstance>(null);
+
+  const focusFirstInput = useCallback(() => {
+    formRef.current?.getFieldInstance("name").focus?.();
+  }, []);
 
   const onFinishHandler = useCallback(
     (values: Wine) => {
       onFinish?.(values);
-      form.current?.resetFields();
+      formRef.current?.resetFields();
+      focusFirstInput();
     },
-    [onFinish]
+    [onFinish, focusFirstInput]
   );
 
   useEffect(() => {
-    form.current?.setFieldsValue({ id: nextId });
+    formRef.current?.setFieldsValue({ id: nextId });
   }, [nextId]);
+
+  useEffect(() => {
+    focusFirstInput();
+  }, [focusFirstInput]);
+
+  const onFinishFailed = useCallback((val) => {
+    const name: string = val.errorFields[0].name[0];
+    formRef.current?.getFieldInstance(name).focus?.();
+  }, []);
 
   return (
     <Form
-      ref={form}
+      ref={formRef}
       className={className}
       name="basic"
       layout="vertical"
@@ -56,6 +70,7 @@ const WineForm: React.FC<Props> = ({ className, onFinish, nextId }) => {
         year: moment().add(-1, "years"),
         number_of_bottles: 1,
       }}
+      onFinishFailed={onFinishFailed}
       onFinish={onFinishHandler}
     >
       <Form.Item label={t("Id")} name="id" rules={[{ required: true }]}>
