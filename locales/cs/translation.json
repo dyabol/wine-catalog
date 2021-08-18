@@ -1,0 +1,22 @@
+{
+  "Catalog of wines": "Katalog vín",
+  "Name": "Jméno / Název",
+  "Name is required.": "Je potřeba vyplnit jméno.",
+  "Address": "Adresa",
+  "Address is required.": "Je potřeba vyplnit adresu.",
+  "Variety": "Odrůda",
+  "Variety is required.": "Je potřeba vyplnit odrůdu.",
+  "Year": "Ročník",
+  "Year is required.": "Je potřeba vyplnit ročník.",
+  "Note": "Poznámka",
+  "Number of bottles": "Počet láhví",
+  "Number of bottles is required.": "Počet láhví je vyžadován.",
+  "The minimum number of bottles is 1.": "Minimální počet láhví je 1.",
+  "Sugar content": "Cukernatost",
+  "Sweet": "Sladké",
+  "Semi-sweet": "Polosladké",
+  "Semi-dry": "Polosuché",
+  "Dry": "Suché",
+  "Properties": "Vlastnosti",
+  "Add wine": "Přidat vzorek"
+}

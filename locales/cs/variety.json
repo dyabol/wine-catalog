@@ -1,0 +1,146 @@
+[
+  {
+    "name": "Aurelius",
+    "type": "white"
+  },
+  {
+    "name": "Děvín",
+    "type": "white"
+  },
+  {
+    "name": "Hibernal",
+    "type": "white"
+  },
+  {
+    "name": "Chardonnay",
+    "type": "white"
+  },
+  {
+    "name": "Chorvát",
+    "type": "white"
+  },
+  {
+    "name": "Müller Thurgau",
+    "type": "white"
+  },
+  {
+    "name": "Muškát moravský",
+    "type": "white"
+  },
+  {
+    "name": "Muškát Ottonel",
+    "type": "white"
+  },
+  {
+    "name": "Muškát žlutý",
+    "type": "white"
+  },
+  {
+    "name": "Neuburské",
+    "type": "white"
+  },
+  {
+    "name": "Pálava",
+    "type": "white"
+  },
+  {
+    "name": "Portugal bílý",
+    "type": "white"
+  },
+  {
+    "name": "Rulandské white",
+    "type": "white"
+  },
+  {
+    "name": "Rulandské šedé",
+    "type": "white"
+  },
+  {
+    "name": "Ryzlink rýnský",
+    "type": "white"
+  },
+  {
+    "name": "Ryzlink vlašský",
+    "type": "white"
+  },
+  {
+    "name": "Sauvignon",
+    "type": "white"
+  },
+  {
+    "name": "Směs bílá",
+    "type": "white"
+  },
+  {
+    "name": "Sylvánské zelené",
+    "type": "white"
+  },
+  {
+    "name": "Tramín červený",
+    "type": "white"
+  },
+  {
+    "name": "Veltlínské červené",
+    "type": "white"
+  },
+  {
+    "name": "Veltlínské zelené",
+    "type": "white"
+  },
+  {
+    "name": "André",
+    "type": "red"
+  },
+  {
+    "name": "Blauburger",
+    "type": "red"
+  },
+  {
+    "name": "Cabernet Moravia",
+    "type": "red"
+  },
+  {
+    "name": "Cabernet Sauvignon",
+    "type": "red"
+  },
+  {
+    "name": "Dornfelder",
+    "type": "red"
+  },
+  {
+    "name": "Frankovka",
+    "type": "red"
+  },
+  {
+    "name": "Merlot",
+    "type": "red"
+  },
+  {
+    "name": "Modrý Portugal",
+    "type": "red"
+  },
+  {
+    "name": "Neronet",
+    "type": "red"
+  },
+  {
+    "name": "Nitra",
+    "type": "red"
+  },
+  {
+    "name": "Rulandské modré",
+    "type": "red"
+  },
+  {
+    "name": "Směs červená",
+    "type": "red"
+  },
+  {
+    "name": "Svatovavřinecké",
+    "type": "red"
+  },
+  {
+    "name": "Zweigeltrebe",
+    "type": "red"
+  }
+]
