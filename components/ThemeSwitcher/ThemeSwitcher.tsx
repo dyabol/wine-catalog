@@ -1,7 +1,7 @@
-import { BulbOutlined, BulbFilled } from "@ant-design/icons";
 import { Switch } from "antd";
 import React, { useCallback } from "react";
 import { useThemeSwitcher } from "react-css-theme-switcher";
+import useTheme from "../../utils/useTheme";
 
 const ThemeSwitcher: React.FC = () => {
   const {
@@ -10,10 +10,15 @@ const ThemeSwitcher: React.FC = () => {
     currentTheme,
     status,
   } = useThemeSwitcher();
+  const [_, setTheme] = useTheme();
 
   const changeHandler = useCallback(() => {
-    switcher({ theme: currentTheme === "dark" ? light : dark });
-  }, [currentTheme, switcher, dark, light]);
+    const theme = currentTheme === "dark" ? light : dark;
+    if (theme === "light" || theme === "dark") {
+      switcher({ theme });
+      setTheme(theme);
+    }
+  }, [currentTheme, light, dark, switcher, setTheme]);
 
   return (
     <Switch
