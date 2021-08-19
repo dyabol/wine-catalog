@@ -3,14 +3,13 @@ import Card from "antd/lib/card";
 import type { NextPage } from "next";
 import Head from "next/head";
 import React from "react";
-import { useTranslation } from "react-i18next";
+import Header from "../components/Header/Header";
 import WineFormContainer from "../containers/WineFormContainer";
 import WineTableContainer from "../containers/WineTableContainer";
 import styles from "../styles/Home.module.css";
 import "../utils/i18n";
 
 const Home: NextPage = () => {
-  const { t } = useTranslation();
   return (
     <div className={styles.container}>
       <Head>
@@ -23,7 +22,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <h1 className={styles.title}>{t("Catalog of wines")}</h1>
+        <Header />
         <Row gutter={[16, 16]}>
           <Col flex={2}>
             <Card className={styles.wineForm}>
