@@ -64,14 +64,14 @@ const WineForm: React.FC<Props> = ({
   }, [nextId]);
 
   useEffect(() => {
-    if (selectedWine) {
-      formRef.current?.setFieldsValue(selectedWine);
-    } else {
-      formRef.current?.resetFields();
-      setTimeout(() => {
+    formRef.current?.resetFields();
+    setTimeout(() => {
+      if (selectedWine) {
+        formRef.current?.setFieldsValue(selectedWine);
+      } else {
         formRef.current?.setFieldsValue({ id: nextId });
-      }, 100);
-    }
+      }
+    }, 100);
   }, [nextId, selectedWine]);
 
   useEffect(() => {
@@ -108,7 +108,7 @@ const WineForm: React.FC<Props> = ({
         name="name"
         rules={[{ required: true, message: t("Name is required.") }]}
       >
-        <Input />
+        <Input autoFocus={true} />
       </Form.Item>
       <Form.Item
         label={t("Address")}

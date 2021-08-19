@@ -4,3 +4,11 @@
 .selected:hover td {
   background: #bae7ff !important;
 }
+
+body[data-theme="dark"] .selected td {
+  background: #111d2c !important;
+}
+
+body[data-theme="dark"] .selected:hover td {
+  background: #112a45 !important;
+}

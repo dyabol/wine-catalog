@@ -12,23 +12,15 @@ const WineFormContainer: React.FC<Props> = ({ className }) => {
     (state) => [state.wines, state.addWine, state.updateWine],
     shallow
   );
-  const [selectedId, setSelectedId] = useStore(
-    (state) => [state.selectedId, state.setSelectedId],
+  const [selectedId, setSelectedId, id] = useStore(
+    (state) => [state.selectedId, state.setSelectedId, state.nextId],
     shallow
   );
-
-  const biggest = useMemo(() => {
-    const b = Math.max(...wines.map((w) => w.id));
-    return b !== -Infinity ? b + 1 : 1;
-  }, [wines]);
-
-  const [id, setId] = useState(biggest);
 
   const onFinish = useCallback(
     (wine) => {
       if (selectedId === undefined) {
         addWine(wine);
-        setId((id) => id + 1);
       } else {
         updateWine(wine);
         setSelectedId(undefined);

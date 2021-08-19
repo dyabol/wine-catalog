@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { Wine } from "../components/WineForm/WineForm";
 import WineTable from "../components/WineTable/WineTable";
 import useStore from "../utils/store";
@@ -9,14 +9,19 @@ type Props = {
 };
 
 const WineTableContainer: React.FC<Props> = ({ className }) => {
-  const [wines, deleteWine] = useStore(
-    (state) => [state.wines, state.deleteWine],
+  const [wines, deleteWine, loadWines] = useStore(
+    (state) => [state.wines, state.deleteWine, state.loadWines],
     shallow
   );
   const [selectedId, setSelectedId] = useStore(
     (state) => [state.selectedId, state.setSelectedId],
     shallow
   );
+
+  useEffect(() => {
+    loadWines();
+  }, [loadWines]);
+
   const onRowSelect = useCallback(
     (wine: Wine) => {
       setSelectedId(wine.id);
@@ -32,7 +37,7 @@ const WineTableContainer: React.FC<Props> = ({ className }) => {
   return (
     <WineTable
       className={className}
-      dataSource={wines}
+      dataSource={wines.sort((a, b) => a.id - b.id)}
       onRowSelect={onRowSelect}
       onDelete={onDelete}
       selectedId={selectedId}
