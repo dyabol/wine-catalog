@@ -9,8 +9,13 @@ type Props = {
 };
 
 const WineTableContainer: React.FC<Props> = ({ className }) => {
-  const [wines, deleteWine, loadWines] = useStore(
-    (state) => [state.wines, state.deleteWine, state.loadWines],
+  const [wines, deleteWine, loadWines, clearWines] = useStore(
+    (state) => [
+      state.wines,
+      state.deleteWine,
+      state.loadWines,
+      state.clearWines,
+    ],
     shallow
   );
   const [selectedId, setSelectedId] = useStore(
@@ -34,12 +39,15 @@ const WineTableContainer: React.FC<Props> = ({ className }) => {
     },
     [deleteWine]
   );
+
+  const onClear = useCallback(clearWines, [clearWines]);
   return (
     <WineTable
       className={className}
       dataSource={wines.sort((a, b) => a.id - b.id)}
       onRowSelect={onRowSelect}
       onDelete={onDelete}
+      onClear={onClear}
       selectedId={selectedId}
     />
   );

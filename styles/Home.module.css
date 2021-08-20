@@ -3,3 +3,15 @@
   margin: 0 auto;
   padding: 0 1rem 1rem 1rem;
 }
+
+.formCell {
+  max-width: 400px !important;
+}
+
+.content {
+  padding: 1rem 1rem 0 1rem;
+}
+
+.footer {
+  text-align: center;
+}

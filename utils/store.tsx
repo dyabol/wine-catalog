@@ -7,6 +7,7 @@ type StoreType = {
   wines: Wine[];
   nextId: number;
   selectedId: number | undefined;
+  clearWines: () => void;
   loadWines: () => void;
   addWine: (wine: Wine) => void;
   updateWine: (wine: Wine) => void;
@@ -14,7 +15,7 @@ type StoreType = {
   setSelectedId: (id: number | undefined) => void;
 };
 
-export const getSavedWines = () => {
+const getSavedWines = () => {
   const savedWines = localStorage.getItem("wines");
   if (savedWines) {
     return (JSON.parse(savedWines) as any[]).map((w) => ({
@@ -30,10 +31,19 @@ const getNextID = (wines: Wine[]) => {
   return b !== -Infinity ? b + 1 : 1;
 };
 
+const saveWines = (wines: Wine[]) => {
+  localStorage.setItem(
+    "wines",
+    JSON.stringify(wines.map((w) => ({ ...w, year: w.year.format("YYYY") })))
+  );
+};
+
 const useStore = create<StoreType>((set) => ({
   wines: [],
   nextId: 1,
   selectedId: undefined,
+  clearWines: () =>
+    set(() => ({ wines: [], nextId: 1, selectedId: undefined })),
   loadWines: () =>
     set(() => {
       const wines = getSavedWines();
@@ -51,15 +61,6 @@ const useStore = create<StoreType>((set) => ({
   setSelectedId: (selectedId) => set(() => ({ selectedId })),
 }));
 
-useStore.subscribe<Wine[]>(
-  (wines) => {
-    localStorage.setItem(
-      "wines",
-      JSON.stringify(wines.map((w) => ({ ...w, year: w.year.format("YYYY") })))
-    );
-  },
-  (state) => state.wines,
-  shallow
-);
+useStore.subscribe<Wine[]>(saveWines, (state) => state.wines, shallow);
 
 export default useStore;

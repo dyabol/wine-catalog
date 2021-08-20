@@ -1,4 +1,4 @@
-import { Col, Row } from "antd";
+import { Col, Row, Layout } from "antd";
 import Card from "antd/lib/card";
 import type { NextPage } from "next";
 import Head from "next/head";
@@ -9,9 +9,11 @@ import WineTableContainer from "../containers/WineTableContainer";
 import styles from "../styles/Home.module.css";
 import "../utils/i18n";
 
+const { Header: AntHeader, Footer, Sider, Content } = Layout;
+
 const Home: NextPage = () => {
   return (
-    <div className={styles.container}>
+    <>
       <Head>
         <title>Katalog</title>
         <meta name="description" content="Katalog" />
@@ -21,22 +23,29 @@ const Home: NextPage = () => {
         ></meta>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
-        <Header />
-        <Row gutter={[16, 16]}>
-          <Col flex={2}>
-            <Card className={styles.wineForm}>
-              <WineFormContainer />
-            </Card>
-          </Col>
-          <Col flex={4}>
-            <Card className={styles.wineTable}>
-              <WineTableContainer />
-            </Card>
-          </Col>
-        </Row>
-      </main>
-    </div>
+      <Layout>
+        <AntHeader>
+          <Header />
+        </AntHeader>
+        <Content className={styles.content}>
+          <Row gutter={[16, 16]}>
+            <Col flex={2} className={styles.formCell}>
+              <Card className={styles.wineForm}>
+                <WineFormContainer />
+              </Card>
+            </Col>
+            <Col flex={4}>
+              <Card className={styles.wineTable}>
+                <WineTableContainer />
+              </Card>
+            </Col>
+          </Row>
+        </Content>
+      </Layout>
+      <Footer className={styles.footer}>
+        Made with ❤️ by <a href="https://www.hromek.cz">hromek.cz</a>
+      </Footer>
+    </>
   );
 };
 

@@ -1,8 +1,12 @@
-import { Table } from "antd";
+import { DeleteOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
+import { Button, Space, Table, Modal, Row, Col } from "antd";
 import React, { useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { Wine } from "../WineForm/WineForm";
 import useWineColumns from "./useWineColumns";
-import style from "./WineTable.module.css";
+import styles from "./WineTable.module.css";
+
+const { confirm } = Modal;
 
 type Props = {
   className?: string;
@@ -10,6 +14,7 @@ type Props = {
   selectedId?: number;
   onRowSelect?: (wine: Wine) => void;
   onDelete?: (wine: Wine) => void;
+  onClear?: () => void;
 };
 
 const WineTable: React.FC<Props> = ({
@@ -18,7 +23,9 @@ const WineTable: React.FC<Props> = ({
   selectedId,
   onRowSelect,
   onDelete,
+  onClear,
 }) => {
+  const { t } = useTranslation();
   const columns = useWineColumns({
     onDelete,
     disableActions: selectedId !== undefined,
@@ -33,21 +40,40 @@ const WineTable: React.FC<Props> = ({
 
   const rowClassName = useCallback(
     (record: Wine) => {
-      return selectedId === record.id ? style.selected : "";
+      return selectedId === record.id ? styles.selected : "";
     },
     [selectedId]
   );
 
+  const onClearHandler = () => {
+    confirm({
+      icon: <ExclamationCircleOutlined />,
+      content: "Blabal",
+      onOk() {
+        onClear?.();
+      },
+    });
+  };
+
   return (
-    <Table
-      rowClassName={rowClassName}
-      dataSource={dataSource}
-      columns={columns.filter((c) => !c.hidden)}
-      className={className}
-      onRow={(record) => ({
-        onClick: onRowClick(record),
-      })}
-    />
+    <>
+      <div className={styles.tableWrapper}>
+        <Table
+          rowClassName={rowClassName}
+          dataSource={dataSource}
+          columns={columns.filter((c) => !c.hidden)}
+          className={className}
+          onRow={(record) => ({
+            onClick: onRowClick(record),
+          })}
+        />
+      </div>
+      <Space size="small">
+        <Button onClick={onClearHandler} icon={<DeleteOutlined />} danger>
+          {t("Clear all")}
+        </Button>
+      </Space>
+    </>
   );
 };
 
