@@ -1,8 +1,14 @@
-import { DeleteOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
+import {
+  DeleteOutlined,
+  ExclamationCircleOutlined,
+  ImportOutlined,
+} from "@ant-design/icons";
 import { Button, Space, Table, Modal } from "antd";
 import React, { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Wine } from "../WineForm/WineForm";
+import ExportButton from "./ExportButton";
+import ImportButton from "./ImportButton";
 import useWineColumns from "./useWineColumns";
 import styles from "./WineTable.module.css";
 
@@ -26,9 +32,10 @@ const WineTable: React.FC<Props> = ({
   onClear,
 }) => {
   const { t } = useTranslation();
+  const inEdit = selectedId !== undefined;
   const columns = useWineColumns({
     onDelete,
-    disableActions: selectedId !== undefined,
+    disableActions: inEdit,
   });
 
   const onRowClick = useCallback(
@@ -68,8 +75,15 @@ const WineTable: React.FC<Props> = ({
           })}
         />
       </div>
-      <Space size="small">
-        <Button onClick={onClearHandler} icon={<DeleteOutlined />} danger>
+      <Space size="small" wrap>
+        <ExportButton disabled={inEdit || dataSource?.length === 0} />
+        {/* <ImportButton disabled={inEdit} /> */}
+        <Button
+          onClick={onClearHandler}
+          icon={<DeleteOutlined />}
+          disabled={inEdit || dataSource?.length === 0}
+          danger
+        >
           {t("Clear all")}
         </Button>
       </Space>

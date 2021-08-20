@@ -30,5 +30,7 @@
   "All was cleared.": "Vše bylo vymazáno.",
   "Record was deleted.": "Záznam byl odstraněn",
   "Record was updated.": "Záznam byl aktualizován.",
-  "Record was added.": "Záznam byl přidán."
+  "Record was added.": "Záznam byl přidán.",
+  "Export": "Exportovat",
+  "Import": "Importovat"
 }

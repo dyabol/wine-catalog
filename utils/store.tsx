@@ -2,6 +2,7 @@ import moment from "moment";
 import create from "zustand";
 import shallow from "zustand/shallow";
 import { Wine } from "../components/WineForm/WineForm";
+import { LOCAL_STORAGE_WINES } from "./constants";
 
 type StoreType = {
   wines: Wine[];
@@ -16,7 +17,7 @@ type StoreType = {
 };
 
 const getSavedWines = () => {
-  const savedWines = localStorage.getItem("wines");
+  const savedWines = localStorage.getItem(LOCAL_STORAGE_WINES);
   if (savedWines) {
     return (JSON.parse(savedWines) as any[]).map((w) => ({
       ...w,
@@ -33,7 +34,7 @@ const getNextID = (wines: Wine[]) => {
 
 const saveWines = (wines: Wine[]) => {
   localStorage.setItem(
-    "wines",
+    LOCAL_STORAGE_WINES,
     JSON.stringify(wines.map((w) => ({ ...w, year: w.year.format("YYYY") })))
   );
 };
