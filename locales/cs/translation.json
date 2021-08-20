@@ -32,5 +32,6 @@
   "Record was updated.": "Záznam byl aktualizován.",
   "Record was added.": "Záznam byl přidán.",
   "Export": "Exportovat",
-  "Import": "Importovat"
+  "Import": "Importovat",
+  "Error loading file.": "Chyba při načítání souboru."
 }

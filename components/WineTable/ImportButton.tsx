@@ -1,7 +1,10 @@
 import { ImportOutlined } from "@ant-design/icons";
-import { Button } from "antd";
-import React from "react";
+import { Button, message } from "antd";
+import moment from "moment";
+import React, { useCallback, useRef } from "react";
 import { useTranslation } from "react-i18next";
+import { parseWines } from "../../utils/json";
+import useStore from "../../utils/store";
 
 type Props = {
   disabled?: boolean;
@@ -9,9 +12,43 @@ type Props = {
 
 const ImportButton: React.FC<Props> = ({ disabled }) => {
   const { t } = useTranslation();
+  const inputRef = useRef<HTMLInputElement>(null);
+  const setWines = useStore((state) => state.setWines);
+
+  const upload = useCallback(() => {
+    inputRef.current?.click();
+  }, []);
+
+  const fileChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const file = event.target.files?.[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.readAsText(file, "UTF-8");
+        reader.onload = function ({ target }) {
+          const result = target?.result;
+          if (typeof result === "string") {
+            setWines(parseWines(result));
+          }
+        };
+        reader.onerror = function () {
+          message.error(t("Error loading file."));
+        };
+      }
+    },
+    [t, setWines]
+  );
+
   return (
-    <Button onClick={undefined} icon={<ImportOutlined />} disabled={disabled}>
+    <Button onClick={upload} icon={<ImportOutlined />} disabled={disabled}>
       {t("Import")}
+      <input
+        ref={inputRef}
+        type="file"
+        hidden
+        onChange={fileChange}
+        accept="application/JSON"
+      />
     </Button>
   );
 };

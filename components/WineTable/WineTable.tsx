@@ -77,7 +77,7 @@ const WineTable: React.FC<Props> = ({
       </div>
       <Space size="small" wrap>
         <ExportButton disabled={inEdit || dataSource?.length === 0} />
-        {/* <ImportButton disabled={inEdit} /> */}
+        <ImportButton disabled={inEdit} />
         <Button
           onClick={onClearHandler}
           icon={<DeleteOutlined />}

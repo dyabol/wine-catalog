@@ -3,6 +3,7 @@ import create from "zustand";
 import shallow from "zustand/shallow";
 import { Wine } from "../components/WineForm/WineForm";
 import { LOCAL_STORAGE_WINES } from "./constants";
+import { parseWines, stringifyWines } from "./json";
 
 type StoreType = {
   wines: Wine[];
@@ -10,6 +11,7 @@ type StoreType = {
   selectedId: number | undefined;
   clearWines: () => void;
   loadWines: () => void;
+  setWines: (wines: Wine[]) => void;
   addWine: (wine: Wine) => void;
   updateWine: (wine: Wine) => void;
   deleteWine: (wine: Wine) => void;
@@ -19,10 +21,7 @@ type StoreType = {
 const getSavedWines = () => {
   const savedWines = localStorage.getItem(LOCAL_STORAGE_WINES);
   if (savedWines) {
-    return (JSON.parse(savedWines) as any[]).map((w) => ({
-      ...w,
-      year: moment({ year: w.year }),
-    }));
+    return parseWines(savedWines);
   }
   return [];
 };
@@ -33,10 +32,7 @@ const getNextID = (wines: Wine[]) => {
 };
 
 const saveWines = (wines: Wine[]) => {
-  localStorage.setItem(
-    LOCAL_STORAGE_WINES,
-    JSON.stringify(wines.map((w) => ({ ...w, year: w.year.format("YYYY") })))
-  );
+  localStorage.setItem(LOCAL_STORAGE_WINES, stringifyWines(wines));
 };
 
 const useStore = create<StoreType>((set) => ({
@@ -50,7 +46,11 @@ const useStore = create<StoreType>((set) => ({
   loadWines: () =>
     set(() => {
       const wines = getSavedWines();
-      return { wines, nextId: getNextID(wines) };
+      return { wines, nextId: getNextID(wines), selectedId: undefined };
+    }),
+  setWines: (wines: Wine[]) =>
+    set(() => {
+      return { wines, nextId: getNextID(wines), selectedId: undefined };
     }),
   addWine: (wine) =>
     set((state) => ({
