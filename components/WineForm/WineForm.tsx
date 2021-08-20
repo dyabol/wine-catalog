@@ -15,6 +15,7 @@ import PropertiesSelect from "../PropertiesSelect/PropertiesSelect";
 import SugarSelect from "../SugarSelect/SugarSelect";
 import VarietyField from "../VarietyField/VarietyField";
 import { SaveOutlined, CloseOutlined, PlusOutlined } from "@ant-design/icons";
+import ReadOnlyField from "../ReadOnlyField";
 
 export type Wine = {
   id: number;
@@ -35,6 +36,7 @@ type Props = {
   nextId: number;
   selectedId?: number;
   getWine?: (id: number) => Wine | undefined;
+  readOnly?: boolean;
 };
 
 const WineForm: React.FC<Props> = ({
@@ -44,12 +46,13 @@ const WineForm: React.FC<Props> = ({
   nextId,
   selectedId,
   getWine,
+  readOnly,
 }) => {
   const { t } = useTranslation();
   const formRef = useRef<FormInstance>(null);
 
   const focusFirstInput = useCallback(() => {
-    formRef.current?.getFieldInstance("name").focus?.();
+    formRef.current?.getFieldInstance("name")?.focus?.();
   }, []);
 
   const onFinishHandler = useCallback(
@@ -66,15 +69,12 @@ const WineForm: React.FC<Props> = ({
   }, [nextId]);
 
   useEffect(() => {
-    console.log("effect", nextId, selectedId);
     formRef.current?.resetFields();
-    setTimeout(() => {
-      if (selectedId !== undefined) {
-        formRef.current?.setFieldsValue(getWine?.(selectedId));
-      } else {
-        formRef.current?.setFieldsValue({ id: nextId });
-      }
-    }, 100);
+    if (selectedId !== undefined) {
+      formRef.current?.setFieldsValue(getWine?.(selectedId));
+    } else {
+      formRef.current?.setFieldsValue({ id: nextId });
+    }
   }, [getWine, nextId, selectedId]);
 
   useEffect(() => {
@@ -84,7 +84,7 @@ const WineForm: React.FC<Props> = ({
   const onFinishFailed: FormProps<Wine>["onFinishFailed"] = useCallback(
     (val) => {
       const name = val.errorFields[0].name[0];
-      formRef.current?.getFieldInstance(name).focus?.();
+      formRef.current?.getFieldInstance(name)?.focus?.();
     },
     []
   );
@@ -103,36 +103,59 @@ const WineForm: React.FC<Props> = ({
       onFinish={onFinishHandler}
       onReset={onReset}
     >
+      <Form.Item>
+        {selectedId !== undefined ? (
+          <Space
+            size="small"
+            style={{ justifyContent: "flex-end", width: "100%" }}
+          >
+            <Button type="primary" htmlType="submit" icon={<SaveOutlined />}>
+              {t("Save changes")}
+            </Button>
+            <Button type="default" htmlType="reset" icon={<CloseOutlined />}>
+              {t("Discard changes")}
+            </Button>
+          </Space>
+        ) : (
+          <Button type="primary" htmlType="submit" icon={<PlusOutlined />}>
+            {t("Add wine")}
+          </Button>
+        )}
+      </Form.Item>
       <Form.Item label={t("Record id")} name="id" rules={[{ required: true }]}>
-        <Input readOnly={true} bordered={false} />
+        <ReadOnlyField />
       </Form.Item>
       <Form.Item
         label={t("Name")}
         name="name"
         rules={[{ required: true, message: t("Name is required.") }]}
       >
-        <Input autoFocus={true} />
+        {readOnly ? <ReadOnlyField /> : <Input autoFocus={true} />}
       </Form.Item>
       <Form.Item
         label={t("Address")}
         name="address"
         rules={[{ required: true, message: t("Address is required.") }]}
       >
-        <Input />
+        {readOnly ? <ReadOnlyField /> : <Input />}
       </Form.Item>
       <Form.Item
         label={t("Variety")}
         name="variety"
         rules={[{ required: true, message: t("Variety is required.") }]}
       >
-        <VarietyField />
+        {readOnly ? <ReadOnlyField /> : <VarietyField />}
       </Form.Item>
       <Form.Item
         label={t("Year")}
         name="year"
         rules={[{ required: true, message: t("Year is required.") }]}
       >
-        <DatePicker picker="year" />
+        {readOnly ? (
+          <ReadOnlyField dateFormat="YYYY" />
+        ) : (
+          <DatePicker picker="year" />
+        )}
       </Form.Item>
       <Form.Item
         label={t("Number of bottles")}
@@ -146,32 +169,16 @@ const WineForm: React.FC<Props> = ({
           },
         ]}
       >
-        <InputNumber min={1} />
+        {readOnly ? <ReadOnlyField /> : <InputNumber min={1} />}
       </Form.Item>
       <Form.Item label={t("Sugar content")} name="sugar_content">
-        <SugarSelect />
+        {readOnly ? <ReadOnlyField /> : <SugarSelect />}
       </Form.Item>
       <Form.Item label={t("Properties")} name="properties">
-        <PropertiesSelect />
+        {readOnly ? <ReadOnlyField /> : <PropertiesSelect />}
       </Form.Item>
       <Form.Item label={t("Note")} name="note">
-        <Input />
-      </Form.Item>
-      <Form.Item>
-        {selectedId !== undefined ? (
-          <Space size="small">
-            <Button type="primary" htmlType="submit" icon={<SaveOutlined />}>
-              {t("Save changes")}
-            </Button>
-            <Button type="default" htmlType="reset" icon={<CloseOutlined />}>
-              {t("Discard changes")}
-            </Button>
-          </Space>
-        ) : (
-          <Button type="primary" htmlType="submit" icon={<PlusOutlined />}>
-            {t("Add wine")}
-          </Button>
-        )}
+        {readOnly ? <ReadOnlyField /> : <Input />}
       </Form.Item>
     </Form>
   );
