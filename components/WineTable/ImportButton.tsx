@@ -1,6 +1,5 @@
 import { ImportOutlined } from "@ant-design/icons";
 import { Button, message } from "antd";
-import moment from "moment";
 import React, { useCallback, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { parseWines } from "../../utils/json";
@@ -28,7 +27,13 @@ const ImportButton: React.FC<Props> = ({ disabled }) => {
         reader.onload = function ({ target }) {
           const result = target?.result;
           if (typeof result === "string") {
-            setWines(parseWines(result));
+            try {
+              setWines(parseWines(result));
+              message.success(t("File was imported."));
+            } catch (err) {
+              message.error(t("Error loading file."));
+              console.error(err);
+            }
           }
         };
         reader.onerror = function () {

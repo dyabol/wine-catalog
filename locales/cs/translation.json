@@ -33,5 +33,6 @@
   "Record was added.": "Záznam byl přidán.",
   "Export": "Exportovat",
   "Import": "Importovat",
-  "Error loading file.": "Chyba při načítání souboru."
+  "Error loading file.": "Chyba při načítání souboru.",
+  "File was imported.": "Soubor byl importován."
 }

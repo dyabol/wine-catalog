@@ -60,7 +60,10 @@ const useWineColumns = ({ onDelete, disableActions }: Props): Column[] => {
             type="link"
             danger
             icon={<CloseCircleOutlined />}
-            onClick={() => onDelete?.(record)}
+            onClick={(e) => {
+              e.stopPropagation();
+              onDelete?.(record);
+            }}
           />
         ),
       },
