@@ -18,6 +18,12 @@ const ImportButton: React.FC<Props> = ({ disabled }) => {
     inputRef.current?.click();
   }, []);
 
+  const resetInput = useCallback(() => {
+    if (inputRef.current) {
+      inputRef.current.value = "";
+    }
+  }, []);
+
   const fileChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const file = event.target.files?.[0];
@@ -29,19 +35,22 @@ const ImportButton: React.FC<Props> = ({ disabled }) => {
           if (typeof result === "string") {
             try {
               setWines(parseWines(result));
+              resetInput();
               message.success(t("File was imported."));
             } catch (err) {
+              resetInput();
               message.error(t("Error loading file."));
               console.error(err);
             }
           }
         };
         reader.onerror = function () {
+          resetInput();
           message.error(t("Error loading file."));
         };
       }
     },
-    [t, setWines]
+    [t, setWines, resetInput]
   );
 
   return (
