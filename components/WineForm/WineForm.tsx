@@ -33,7 +33,8 @@ type Props = {
   onFinish?: (values: Wine) => void;
   onReset?: () => void;
   nextId: number;
-  selectedWine?: Wine;
+  selectedId?: number;
+  getWine?: (id: number) => Wine | undefined;
 };
 
 const WineForm: React.FC<Props> = ({
@@ -41,7 +42,8 @@ const WineForm: React.FC<Props> = ({
   onFinish,
   onReset,
   nextId,
-  selectedWine,
+  selectedId,
+  getWine,
 }) => {
   const { t } = useTranslation();
   const formRef = useRef<FormInstance>(null);
@@ -64,15 +66,16 @@ const WineForm: React.FC<Props> = ({
   }, [nextId]);
 
   useEffect(() => {
+    console.log("effect", nextId, selectedId);
     formRef.current?.resetFields();
     setTimeout(() => {
-      if (selectedWine) {
-        formRef.current?.setFieldsValue(selectedWine);
+      if (selectedId !== undefined) {
+        formRef.current?.setFieldsValue(getWine?.(selectedId));
       } else {
         formRef.current?.setFieldsValue({ id: nextId });
       }
     }, 100);
-  }, [nextId, selectedWine]);
+  }, [getWine, nextId, selectedId]);
 
   useEffect(() => {
     focusFirstInput();
@@ -155,7 +158,7 @@ const WineForm: React.FC<Props> = ({
         <Input />
       </Form.Item>
       <Form.Item>
-        {selectedWine ? (
+        {selectedId !== undefined ? (
           <Space size="small">
             <Button type="primary" htmlType="submit" icon={<SaveOutlined />}>
               {t("Save changes")}

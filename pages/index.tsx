@@ -9,7 +9,7 @@ import WineTableContainer from "../containers/WineTableContainer";
 import styles from "../styles/Home.module.css";
 import "../utils/i18n";
 
-const { Header: AntHeader, Footer, Sider, Content } = Layout;
+const { Header: AntHeader, Footer, Content } = Layout;
 
 const Home: NextPage = () => {
   return (
@@ -29,7 +29,7 @@ const Home: NextPage = () => {
         </AntHeader>
         <Content className={styles.content}>
           <Row gutter={[16, 16]}>
-            <Col flex={2} className={styles.formCell}>
+            <Col flex={2}>
               <Card className={styles.wineForm}>
                 <WineFormContainer />
               </Card>

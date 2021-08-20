@@ -43,13 +43,19 @@ const useStore = create<StoreType>((set) => ({
   nextId: 1,
   selectedId: undefined,
   clearWines: () =>
-    set(() => ({ wines: [], nextId: 1, selectedId: undefined })),
+    set(() => {
+      return { wines: [], nextId: 1, selectedId: undefined };
+    }),
   loadWines: () =>
     set(() => {
       const wines = getSavedWines();
       return { wines, nextId: getNextID(wines) };
     }),
-  addWine: (wine) => set((state) => ({ wines: [...state.wines, wine] })),
+  addWine: (wine) =>
+    set((state) => ({
+      wines: [...state.wines, wine],
+      nextId: state.nextId + 1,
+    })),
   updateWine: (wine) =>
     set((state) => ({
       wines: state.wines.map((w) => (w.id === wine.id ? wine : w)),

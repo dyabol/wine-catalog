@@ -1,5 +1,5 @@
 import { DeleteOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
-import { Button, Space, Table, Modal, Row, Col } from "antd";
+import { Button, Space, Table, Modal } from "antd";
 import React, { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Wine } from "../WineForm/WineForm";
@@ -48,10 +48,10 @@ const WineTable: React.FC<Props> = ({
   const onClearHandler = () => {
     confirm({
       icon: <ExclamationCircleOutlined />,
-      content: "Blabal",
-      onOk() {
-        onClear?.();
-      },
+      okText: t("OK"),
+      cancelText: t("Cancel"),
+      content: t("clearAllConfirm"),
+      onOk: onClear,
     });
   };
 

@@ -23,5 +23,12 @@
   "Discard changes": "Zahodit změny",
   "Action": "Akce",
   "Record id": "Číslo vzorku",
-  "Clear all": "Smazat vše"
+  "Clear all": "Smazat vše",
+  "clearAllConfirm": "Opravdu chcete trvale odstranit všechny záznamy?",
+  "OK": "OK",
+  "Cancel": "Zrušit",
+  "All was cleared.": "Vše bylo vymazáno.",
+  "Record was deleted.": "Záznam byl odstraněn",
+  "Record was updated.": "Záznam byl aktualizován.",
+  "Record was added.": "Záznam byl přidán."
 }
