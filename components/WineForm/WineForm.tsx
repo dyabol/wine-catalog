@@ -97,6 +97,7 @@ const WineForm: React.FC<Props> = ({
       {selectedId !== undefined ? (
         <>
           <ResponsiveButton
+            responsive={false}
             type="primary"
             htmlType="submit"
             icon={<SaveOutlined />}
@@ -104,6 +105,7 @@ const WineForm: React.FC<Props> = ({
             {t("Save")}
           </ResponsiveButton>
           <ResponsiveButton
+            responsive={false}
             type="default"
             htmlType="button"
             icon={<CloseOutlined />}
@@ -115,6 +117,7 @@ const WineForm: React.FC<Props> = ({
       ) : (
         <>
           <ResponsiveButton
+            responsive={false}
             type="primary"
             htmlType="submit"
             icon={<PlusOutlined />}
@@ -122,6 +125,7 @@ const WineForm: React.FC<Props> = ({
             {t("Add")}
           </ResponsiveButton>
           <ResponsiveButton
+            responsive={false}
             type="default"
             htmlType="button"
             icon={<CloseOutlined />}
@@ -152,7 +156,7 @@ const WineForm: React.FC<Props> = ({
         extra={
           <>
             <FormToolbar />
-            {toolbar}
+            {/* {toolbar} */}
           </>
         }
       >
@@ -219,6 +223,7 @@ const WineForm: React.FC<Props> = ({
         <Form.Item label={t("Note")} name="note">
           {readOnly ? <ReadOnlyField /> : <Input />}
         </Form.Item>
+        {toolbar}
       </Card>
     </Form>
   );
