@@ -23,7 +23,7 @@ const ClearButton: React.FC<Props> = ({ disabled }) => {
       icon: <ExclamationCircleOutlined />,
       okText: t("OK"),
       cancelText: t("Cancel"),
-      content: t("clearAllConfirm"),
+      content: t("Are you sure you want to permanently delete all records?"),
       onOk: onClear,
     });
   };

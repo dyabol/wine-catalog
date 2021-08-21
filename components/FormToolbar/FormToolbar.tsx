@@ -32,11 +32,16 @@ const FormToolbar: React.FC = () => {
   if (selectedId !== undefined && inEditId === undefined) {
     return (
       <Space>
+        <ResponsiveButton
+          icon={<DeleteOutlined />}
+          danger
+          onClick={onDelete}
+          onlySmall={true}
+        >
+          {t("Delete")}
+        </ResponsiveButton>
         <ResponsiveButton icon={<EditOutlined />} onClick={onUpdate}>
           {t("Edit")}
-        </ResponsiveButton>
-        <ResponsiveButton icon={<DeleteOutlined />} danger onClick={onDelete}>
-          {t("Delete")}
         </ResponsiveButton>
       </Space>
     );

@@ -14,7 +14,12 @@ import { useTranslation } from "react-i18next";
 import PropertiesSelect from "../PropertiesSelect/PropertiesSelect";
 import SugarSelect from "../SugarSelect/SugarSelect";
 import VarietyField from "../VarietyField/VarietyField";
-import { SaveOutlined, CloseOutlined, PlusOutlined } from "@ant-design/icons";
+import {
+  SaveOutlined,
+  CloseOutlined,
+  PlusOutlined,
+  InfoCircleOutlined,
+} from "@ant-design/icons";
 import ReadOnlyField from "../ReadOnlyField";
 import FormToolbar from "../FormToolbar/FormToolbar";
 import ResponsiveButton from "../ResponsiveButton/ResponsiveButton";
@@ -171,6 +176,10 @@ const WineForm: React.FC<Props> = ({
         <Form.Item
           label={t("Name")}
           name="name"
+          tooltip={{
+            title: t("The name of the winery or the name of the winemaker."),
+            icon: <InfoCircleOutlined />,
+          }}
           rules={[{ required: true, message: t("Name is required.") }]}
         >
           {readOnly ? <ReadOnlyField /> : <Input autoFocus={true} />}

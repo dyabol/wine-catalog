@@ -24,7 +24,7 @@
   "Action": "Akce",
   "Record id": "Číslo vzorku",
   "Clear all": "Smazat vše",
-  "clearAllConfirm": "Opravdu chcete trvale odstranit všechny záznamy?",
+  "Are you sure you want to permanently delete all records?": "Opravdu chcete trvale odstranit všechny záznamy?",
   "OK": "OK",
   "Cancel": "Zrušit",
   "All was cleared.": "Vše bylo vymazáno.",
@@ -39,5 +39,6 @@
   "Delete": "Odstranit",
   "Add": "Přidat",
   "Actions": "Další akce",
-  "Change theme": "Změna tématu"
+  "Change theme": "Změna tématu",
+  "The name of the winery or the name of the winemaker.": "Název vinařství nebo jméno vinaře."
 }
