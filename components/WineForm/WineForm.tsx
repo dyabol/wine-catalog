@@ -1,5 +1,4 @@
 import {
-  Button,
   Card,
   DatePicker,
   Form,
@@ -18,6 +17,7 @@ import VarietyField from "../VarietyField/VarietyField";
 import { SaveOutlined, CloseOutlined, PlusOutlined } from "@ant-design/icons";
 import ReadOnlyField from "../ReadOnlyField";
 import FormToolbar from "../FormToolbar/FormToolbar";
+import ResponsiveButton from "../ResponsiveButton/ResponsiveButton";
 
 export type Wine = {
   id: number;
@@ -96,31 +96,39 @@ const WineForm: React.FC<Props> = ({
     <Space size="small" style={{ justifyContent: "flex-end", width: "100%" }}>
       {selectedId !== undefined ? (
         <>
-          <Button type="primary" htmlType="submit" icon={<SaveOutlined />}>
-            {t("Save changes")}
-          </Button>
-          <Button
+          <ResponsiveButton
+            type="primary"
+            htmlType="submit"
+            icon={<SaveOutlined />}
+          >
+            {t("Save")}
+          </ResponsiveButton>
+          <ResponsiveButton
             type="default"
             htmlType="button"
             icon={<CloseOutlined />}
             onClick={onReset}
           >
-            {t("Discard changes")}
-          </Button>
+            {t("Discard")}
+          </ResponsiveButton>
         </>
       ) : (
         <>
-          <Button type="primary" htmlType="submit" icon={<PlusOutlined />}>
+          <ResponsiveButton
+            type="primary"
+            htmlType="submit"
+            icon={<PlusOutlined />}
+          >
             {t("Add")}
-          </Button>
-          <Button
+          </ResponsiveButton>
+          <ResponsiveButton
             type="default"
             htmlType="button"
             icon={<CloseOutlined />}
             onClick={onReset}
           >
             {t("Cancel")}
-          </Button>
+          </ResponsiveButton>
         </>
       )}
     </Space>

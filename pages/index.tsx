@@ -1,5 +1,4 @@
-import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
-import { Col, Row, Layout, Button, Space, Tooltip } from "antd";
+import { Col, Row, Layout } from "antd";
 import Card from "antd/lib/card";
 import type { NextPage } from "next";
 import Head from "next/head";
@@ -31,7 +30,7 @@ const Home: NextPage = () => {
         </AntHeader>
         <Content className={styles.content}>
           <Row gutter={[16, 16]}>
-            <Col flex={2}>
+            <Col flex={2} className={styles.formWrapper}>
               <WineFormContainer />
             </Col>
             <Col flex={4}>

@@ -1,9 +1,10 @@
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { Button, message, Space } from "antd";
+import { message, Space } from "antd";
 import React, { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import shallow from "zustand/shallow";
 import useStore from "../../utils/store";
+import ResponsiveButton from "../ResponsiveButton/ResponsiveButton";
 
 const FormToolbar: React.FC = () => {
   const { t } = useTranslation();
@@ -31,12 +32,12 @@ const FormToolbar: React.FC = () => {
   if (selectedId !== undefined && inEditId === undefined) {
     return (
       <Space>
-        <Button icon={<EditOutlined />} onClick={onUpdate}>
+        <ResponsiveButton icon={<EditOutlined />} onClick={onUpdate}>
           {t("Edit")}
-        </Button>
-        <Button icon={<DeleteOutlined />} danger onClick={onDelete}>
+        </ResponsiveButton>
+        <ResponsiveButton icon={<DeleteOutlined />} danger onClick={onDelete}>
           {t("Delete")}
-        </Button>
+        </ResponsiveButton>
       </Space>
     );
   }
