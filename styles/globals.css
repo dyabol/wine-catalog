@@ -1,0 +1,6 @@
+.ant-table-row {
+  cursor: pointer;
+}
+.disable-table .ant-table-row {
+  cursor: not-allowed;
+}

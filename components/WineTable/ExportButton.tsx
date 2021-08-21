@@ -1,5 +1,5 @@
 import { ExportOutlined } from "@ant-design/icons";
-import { Button } from "antd";
+import { Menu } from "antd";
 import moment from "moment";
 import React, { useCallback, useRef } from "react";
 import { useTranslation } from "react-i18next";
@@ -28,16 +28,10 @@ const ExportButton: React.FC<Props> = ({ disabled }) => {
   }, []);
 
   return (
-    <Button
-      onClick={onExport}
-      icon={<ExportOutlined />}
-      disabled={disabled}
-      type="primary"
-      ghost
-    >
+    <Menu.Item onClick={onExport} icon={<ExportOutlined />} disabled={disabled}>
       {t("Export")}
       <a ref={anchorRef} style={{ display: "none" }} />
-    </Button>
+    </Menu.Item>
   );
 };
 

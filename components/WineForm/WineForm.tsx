@@ -1,5 +1,6 @@
 import {
   Button,
+  Card,
   DatePicker,
   Form,
   FormInstance,
@@ -16,6 +17,7 @@ import SugarSelect from "../SugarSelect/SugarSelect";
 import VarietyField from "../VarietyField/VarietyField";
 import { SaveOutlined, CloseOutlined, PlusOutlined } from "@ant-design/icons";
 import ReadOnlyField from "../ReadOnlyField";
+import FormToolbar from "../FormToolbar/FormToolbar";
 
 export type Wine = {
   id: number;
@@ -58,23 +60,23 @@ const WineForm: React.FC<Props> = ({
   const onFinishHandler = useCallback(
     (values: Wine) => {
       onFinish?.(values);
-      formRef.current?.resetFields();
-      focusFirstInput();
+      if (selectedId === undefined) {
+        formRef.current?.resetFields();
+        focusFirstInput();
+      }
     },
-    [onFinish, focusFirstInput]
+    [onFinish, selectedId, focusFirstInput]
   );
 
   useEffect(() => {
-    formRef.current?.setFieldsValue({ id: nextId });
-  }, [nextId]);
-
-  useEffect(() => {
     formRef.current?.resetFields();
-    if (selectedId !== undefined) {
-      formRef.current?.setFieldsValue(getWine?.(selectedId));
-    } else {
-      formRef.current?.setFieldsValue({ id: nextId });
-    }
+    setTimeout(() => {
+      if (selectedId !== undefined) {
+        formRef.current?.setFieldsValue(getWine?.(selectedId));
+      } else {
+        formRef.current?.setFieldsValue({ id: nextId });
+      }
+    }, 50);
   }, [getWine, nextId, selectedId]);
 
   useEffect(() => {
@@ -83,10 +85,45 @@ const WineForm: React.FC<Props> = ({
 
   const onFinishFailed: FormProps<Wine>["onFinishFailed"] = useCallback(
     (val) => {
+      console.error(val);
       const name = val.errorFields[0].name[0];
       formRef.current?.getFieldInstance(name)?.focus?.();
     },
     []
+  );
+
+  const toolbar = !readOnly && (
+    <Space size="small" style={{ justifyContent: "flex-end", width: "100%" }}>
+      {selectedId !== undefined ? (
+        <>
+          <Button type="primary" htmlType="submit" icon={<SaveOutlined />}>
+            {t("Save changes")}
+          </Button>
+          <Button
+            type="default"
+            htmlType="button"
+            icon={<CloseOutlined />}
+            onClick={onReset}
+          >
+            {t("Discard changes")}
+          </Button>
+        </>
+      ) : (
+        <>
+          <Button type="primary" htmlType="submit" icon={<PlusOutlined />}>
+            {t("Add")}
+          </Button>
+          <Button
+            type="default"
+            htmlType="button"
+            icon={<CloseOutlined />}
+            onClick={onReset}
+          >
+            {t("Cancel")}
+          </Button>
+        </>
+      )}
+    </Space>
   );
 
   return (
@@ -101,85 +138,80 @@ const WineForm: React.FC<Props> = ({
       }}
       onFinishFailed={onFinishFailed}
       onFinish={onFinishHandler}
-      onReset={onReset}
     >
-      <Form.Item>
-        {selectedId !== undefined ? (
-          <Space
-            size="small"
-            style={{ justifyContent: "flex-end", width: "100%" }}
-          >
-            <Button type="primary" htmlType="submit" icon={<SaveOutlined />}>
-              {t("Save changes")}
-            </Button>
-            <Button type="default" htmlType="reset" icon={<CloseOutlined />}>
-              {t("Discard changes")}
-            </Button>
-          </Space>
-        ) : (
-          <Button type="primary" htmlType="submit" icon={<PlusOutlined />}>
-            {t("Add wine")}
-          </Button>
-        )}
-      </Form.Item>
-      <Form.Item label={t("Record id")} name="id" rules={[{ required: true }]}>
-        <ReadOnlyField />
-      </Form.Item>
-      <Form.Item
-        label={t("Name")}
-        name="name"
-        rules={[{ required: true, message: t("Name is required.") }]}
+      <Card
+        title={`Vzorek #${selectedId ?? nextId}`}
+        extra={
+          <>
+            <FormToolbar />
+            {toolbar}
+          </>
+        }
       >
-        {readOnly ? <ReadOnlyField /> : <Input autoFocus={true} />}
-      </Form.Item>
-      <Form.Item
-        label={t("Address")}
-        name="address"
-        rules={[{ required: true, message: t("Address is required.") }]}
-      >
-        {readOnly ? <ReadOnlyField /> : <Input />}
-      </Form.Item>
-      <Form.Item
-        label={t("Variety")}
-        name="variety"
-        rules={[{ required: true, message: t("Variety is required.") }]}
-      >
-        {readOnly ? <ReadOnlyField /> : <VarietyField />}
-      </Form.Item>
-      <Form.Item
-        label={t("Year")}
-        name="year"
-        rules={[{ required: true, message: t("Year is required.") }]}
-      >
-        {readOnly ? (
-          <ReadOnlyField dateFormat="YYYY" />
-        ) : (
-          <DatePicker picker="year" />
-        )}
-      </Form.Item>
-      <Form.Item
-        label={t("Number of bottles")}
-        name="number_of_bottles"
-        rules={[
-          { required: true, message: t("Number of bottles is required.") },
-          {
-            type: "number",
-            min: 1,
-            message: t("The minimum number of bottles is 1."),
-          },
-        ]}
-      >
-        {readOnly ? <ReadOnlyField /> : <InputNumber min={1} />}
-      </Form.Item>
-      <Form.Item label={t("Sugar content")} name="sugar_content">
-        {readOnly ? <ReadOnlyField /> : <SugarSelect />}
-      </Form.Item>
-      <Form.Item label={t("Properties")} name="properties">
-        {readOnly ? <ReadOnlyField /> : <PropertiesSelect />}
-      </Form.Item>
-      <Form.Item label={t("Note")} name="note">
-        {readOnly ? <ReadOnlyField /> : <Input />}
-      </Form.Item>
+        <Form.Item
+          hidden
+          label={t("Record id")}
+          name="id"
+          rules={[{ required: true }]}
+        >
+          <ReadOnlyField />
+        </Form.Item>
+        <Form.Item
+          label={t("Name")}
+          name="name"
+          rules={[{ required: true, message: t("Name is required.") }]}
+        >
+          {readOnly ? <ReadOnlyField /> : <Input autoFocus={true} />}
+        </Form.Item>
+        <Form.Item
+          label={t("Address")}
+          name="address"
+          rules={[{ required: true, message: t("Address is required.") }]}
+        >
+          {readOnly ? <ReadOnlyField /> : <Input />}
+        </Form.Item>
+        <Form.Item
+          label={t("Variety")}
+          name="variety"
+          rules={[{ required: true, message: t("Variety is required.") }]}
+        >
+          {readOnly ? <ReadOnlyField /> : <VarietyField />}
+        </Form.Item>
+        <Form.Item
+          label={t("Year")}
+          name="year"
+          rules={[{ required: true, message: t("Year is required.") }]}
+        >
+          {readOnly ? (
+            <ReadOnlyField dateFormat="YYYY" />
+          ) : (
+            <DatePicker picker="year" />
+          )}
+        </Form.Item>
+        <Form.Item
+          label={t("Number of bottles")}
+          name="number_of_bottles"
+          rules={[
+            { required: true, message: t("Number of bottles is required.") },
+            {
+              type: "number",
+              min: 1,
+              message: t("The minimum number of bottles is 1."),
+            },
+          ]}
+        >
+          {readOnly ? <ReadOnlyField /> : <InputNumber min={1} />}
+        </Form.Item>
+        <Form.Item label={t("Sugar content")} name="sugar_content">
+          {readOnly ? <ReadOnlyField /> : <SugarSelect />}
+        </Form.Item>
+        <Form.Item label={t("Properties")} name="properties">
+          {readOnly ? <ReadOnlyField /> : <PropertiesSelect />}
+        </Form.Item>
+        <Form.Item label={t("Note")} name="note">
+          {readOnly ? <ReadOnlyField /> : <Input />}
+        </Form.Item>
+      </Card>
     </Form>
   );
 };

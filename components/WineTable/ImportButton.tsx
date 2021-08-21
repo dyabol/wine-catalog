@@ -1,5 +1,5 @@
 import { ImportOutlined } from "@ant-design/icons";
-import { Button, message } from "antd";
+import { Menu, message } from "antd";
 import React, { useCallback, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { parseWines } from "../../utils/json";
@@ -54,7 +54,7 @@ const ImportButton: React.FC<Props> = ({ disabled }) => {
   );
 
   return (
-    <Button onClick={upload} icon={<ImportOutlined />} disabled={disabled}>
+    <Menu.Item onClick={upload} icon={<ImportOutlined />} disabled={disabled}>
       {t("Import")}
       <input
         ref={inputRef}
@@ -63,7 +63,7 @@ const ImportButton: React.FC<Props> = ({ disabled }) => {
         onChange={fileChange}
         accept="application/JSON"
       />
-    </Button>
+    </Menu.Item>
   );
 };
 

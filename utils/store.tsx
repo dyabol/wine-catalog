@@ -8,13 +8,16 @@ type StoreType = {
   wines: Wine[];
   nextId: number;
   selectedId: number | undefined;
+  inEditId: number | undefined;
+  setInEditId: (id: number | undefined) => void;
   clearWines: () => void;
   loadWines: () => void;
   setWines: (wines: Wine[]) => void;
   addWine: (wine: Wine) => void;
   updateWine: (wine: Wine) => void;
-  deleteWine: (wine: Wine) => void;
+  deleteWine: (id: number) => void;
   setSelectedId: (id: number | undefined) => void;
+  cancelAdding: () => void;
 };
 
 const getSavedWines = () => {
@@ -38,19 +41,17 @@ const useStore = create<StoreType>((set) => ({
   wines: [],
   nextId: 1,
   selectedId: undefined,
+  inEditId: undefined,
+  setInEditId: (inEditId) => set(() => ({ inEditId })),
   clearWines: () =>
-    set(() => {
-      return { wines: [], nextId: 1, selectedId: undefined };
-    }),
+    set(() => ({ wines: [], nextId: 1, selectedId: undefined })),
   loadWines: () =>
     set(() => {
       const wines = getSavedWines();
       return { wines, nextId: getNextID(wines), selectedId: undefined };
     }),
   setWines: (wines: Wine[]) =>
-    set(() => {
-      return { wines, nextId: getNextID(wines), selectedId: undefined };
-    }),
+    set(() => ({ wines, nextId: getNextID(wines), selectedId: undefined })),
   addWine: (wine) =>
     set((state) => ({
       wines: [...state.wines, wine],
@@ -59,12 +60,21 @@ const useStore = create<StoreType>((set) => ({
   updateWine: (wine) =>
     set((state) => ({
       wines: state.wines.map((w) => (w.id === wine.id ? wine : w)),
+      inEditId: undefined,
     })),
-  deleteWine: (wine) =>
-    set((state) => ({
-      wines: state.wines.filter((w) => w.id !== wine.id),
-    })),
+  deleteWine: (id) =>
+    set((state) => {
+      const n = state.wines.filter((w) => w.id !== id);
+      return {
+        wines: n,
+        selectedId: n.length === 0 ? undefined : n[0].id,
+      };
+    }),
   setSelectedId: (selectedId) => set(() => ({ selectedId })),
+  cancelAdding: () =>
+    set((state) => ({
+      selectedId: state.wines.length > 0 ? state.wines[0].id : undefined,
+    })),
 }));
 
 useStore.subscribe<Wine[]>(saveWines, (state) => state.wines, shallow);

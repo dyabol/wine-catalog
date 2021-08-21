@@ -34,5 +34,9 @@
   "Export": "Exportovat",
   "Import": "Importovat",
   "Error loading file.": "Chyba při načítání souboru.",
-  "File was imported.": "Soubor byl importován."
+  "File was imported.": "Soubor byl importován.",
+  "Edit": "Upravit",
+  "Delete": "Odstranit",
+  "Add": "Přidat",
+  "Actions": "Další akce"
 }
