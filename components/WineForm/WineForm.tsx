@@ -44,6 +44,7 @@ type Props = {
   selectedId?: number;
   getWine?: (id: number) => Wine | undefined;
   readOnly?: boolean;
+  empty?: boolean;
 };
 
 const WineForm: React.FC<Props> = ({
@@ -54,6 +55,7 @@ const WineForm: React.FC<Props> = ({
   selectedId,
   getWine,
   readOnly,
+  empty,
 }) => {
   const { t } = useTranslation();
   const formRef = useRef<FormInstance>(null);
@@ -129,15 +131,17 @@ const WineForm: React.FC<Props> = ({
           >
             {t("Add")}
           </ResponsiveButton>
-          <ResponsiveButton
-            responsive={false}
-            type="default"
-            htmlType="button"
-            icon={<CloseOutlined />}
-            onClick={onReset}
-          >
-            {t("Cancel")}
-          </ResponsiveButton>
+          {!empty && (
+            <ResponsiveButton
+              responsive={false}
+              type="default"
+              htmlType="button"
+              icon={<CloseOutlined />}
+              onClick={onReset}
+            >
+              {t("Cancel")}
+            </ResponsiveButton>
+          )}
         </>
       )}
     </Space>

@@ -20,6 +20,8 @@ const WineFormContainer: React.FC<Props> = ({ className }) => {
     shallow
   );
 
+  const empty = useStore((state) => state.wines.length === 0);
+
   const id = useStore((state) => state.nextId);
   const inEditId = useStore((state) => state.inEditId);
 
@@ -58,6 +60,7 @@ const WineFormContainer: React.FC<Props> = ({ className }) => {
       getWine={getWine}
       selectedId={selectedId}
       readOnly={inEditId === undefined && selectedId !== undefined}
+      empty={empty}
     />
   );
 };
