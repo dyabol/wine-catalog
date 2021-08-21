@@ -1,9 +1,11 @@
-import { Switch } from "antd";
+import { Switch, Tooltip } from "antd";
 import React, { useCallback } from "react";
 import { useThemeSwitcher } from "react-css-theme-switcher";
+import { useTranslation } from "react-i18next";
 import useTheme from "../../utils/useTheme";
 
 const ThemeSwitcher: React.FC = () => {
+  const { t } = useTranslation();
   const {
     switcher,
     themes: { light, dark },
@@ -21,13 +23,15 @@ const ThemeSwitcher: React.FC = () => {
   }, [currentTheme, light, dark, switcher, setTheme]);
 
   return (
-    <Switch
-      loading={status === "loading"}
-      checked={currentTheme === "dark"}
-      checkedChildren={"☀️"}
-      unCheckedChildren={"🌙"}
-      onChange={changeHandler}
-    />
+    <Tooltip title={t("Change theme")}>
+      <Switch
+        loading={status === "loading"}
+        checked={currentTheme === "dark"}
+        checkedChildren={"☀️"}
+        unCheckedChildren={"🌙"}
+        onChange={changeHandler}
+      />
+    </Tooltip>
   );
 };
 
