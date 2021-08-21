@@ -31,7 +31,10 @@ const WineTableContainer: React.FC<Props> = ({ className }) => {
 
   return (
     <WineTable
-      disabled={inEditId !== undefined}
+      disabled={
+        inEditId !== undefined ||
+        (inEditId === undefined && selectedId === undefined)
+      }
       className={className}
       dataSource={wines.sort((a, b) => a.id - b.id)}
       onRowSelect={onRowSelect}
