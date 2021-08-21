@@ -1,4 +1,4 @@
-import { DownOutlined } from "@ant-design/icons";
+import { DownOutlined, FileExcelOutlined } from "@ant-design/icons";
 import { Button, Dropdown, Menu, Space } from "antd";
 import React from "react";
 import ClearButton from "../WineTable/ClearButton";
@@ -8,14 +8,16 @@ import shallow from "zustand/shallow";
 import useStore from "../../utils/store";
 import AddButton from "../WineTable/AddButton";
 import { useTranslation } from "react-i18next";
+import { useRouter } from "next/dist/client/router";
 
 const Toolbar: React.FC = () => {
   const { t } = useTranslation();
-  const [disabled, empty, selected] = useStore(
+  const router = useRouter();
+  const [disabled, empty] = useStore(
     (state) => [
-      state.inEditId !== undefined,
+      state.inEditId !== undefined ||
+        (state.inEditId === undefined && state.selectedId === undefined),
       state.wines.length === 0,
-      state.selectedId !== undefined,
     ],
     shallow
   );
@@ -30,12 +32,23 @@ const Toolbar: React.FC = () => {
 
   return (
     <Space size="small" wrap>
-      {selected && !disabled && <AddButton />}
+      {!disabled && <AddButton />}
       <Dropdown overlay={menu}>
         <Button>
           {t("Actions")} <DownOutlined />
         </Button>
       </Dropdown>
+      {!disabled && (
+        <Button
+          type="primary"
+          icon={<FileExcelOutlined />}
+          onClick={() => {
+            router.push("/export");
+          }}
+        >
+          {t("Create catalog")}
+        </Button>
+      )}
     </Space>
   );
 };

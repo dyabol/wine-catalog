@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback } from "react";
 import { Wine } from "../components/WineForm/WineForm";
 import WineTable from "../components/WineTable/WineTable";
 import useStore from "../utils/store";
@@ -9,18 +9,14 @@ type Props = {
 };
 
 const WineTableContainer: React.FC<Props> = ({ className }) => {
-  const [wines, loadWines, inEditId] = useStore(
-    (state) => [state.wines, state.loadWines, state.inEditId],
+  const [wines, inEditId] = useStore(
+    (state) => [state.wines, state.inEditId],
     shallow
   );
   const [selectedId, setSelectedId] = useStore(
     (state) => [state.selectedId, state.setSelectedId],
     shallow
   );
-
-  useEffect(() => {
-    loadWines();
-  }, [loadWines]);
 
   const onRowSelect = useCallback(
     (wine: Wine) => {

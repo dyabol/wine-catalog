@@ -1,5 +1,5 @@
 {
-  "Catalog of wines": "Katalog vín",
+  "Catalog of wines": "Katalog vín 🍷",
   "Name": "Jméno",
   "Name is required.": "Je potřeba vyplnit jméno.",
   "Address": "Adresa",
@@ -31,8 +31,9 @@
   "Record was deleted.": "Záznam byl odstraněn",
   "Record was updated.": "Záznam byl aktualizován.",
   "Record was added.": "Záznam byl přidán.",
-  "Export": "Exportovat",
-  "Import": "Importovat",
+  "Create catalog": "Vytvořit katalog",
+  "Export to JSON": "Exportovat do JSON",
+  "Import from JSON": "Importovat z JSON",
   "Error loading file.": "Chyba při načítání souboru.",
   "File was imported.": "Soubor byl importován.",
   "Edit": "Upravit",
@@ -40,5 +41,7 @@
   "Add": "Přidat",
   "Actions": "Další akce",
   "Change theme": "Změna tématu",
-  "The name of the winery or the name of the winemaker.": "Název vinařství nebo jméno vinaře."
+  "The name of the winery or the name of the winemaker.": "Název vinařství nebo jméno vinaře.",
+  "Variety ordering": "Řazení odrůd",
+  "Back": "Zpět"
 }

@@ -29,7 +29,7 @@ const ExportButton: React.FC<Props> = ({ disabled }) => {
 
   return (
     <Menu.Item onClick={onExport} icon={<ExportOutlined />} disabled={disabled}>
-      {t("Export")}
+      {t("Export to JSON")}
       <a ref={anchorRef} style={{ display: "none" }} />
     </Menu.Item>
   );

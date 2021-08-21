@@ -55,7 +55,7 @@ const ImportButton: React.FC<Props> = ({ disabled }) => {
 
   return (
     <Menu.Item onClick={upload} icon={<ImportOutlined />} disabled={disabled}>
-      {t("Import")}
+      {t("Import from JSON")}
       <input
         ref={inputRef}
         type="file"
