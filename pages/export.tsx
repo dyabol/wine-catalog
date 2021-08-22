@@ -1,8 +1,8 @@
-import { LeftOutlined } from "@ant-design/icons";
-import { Button, Card, List } from "antd";
+import { FileExcelOutlined, LeftOutlined } from "@ant-design/icons";
+import { Button, Card, List, Space } from "antd";
 import type { NextPage } from "next";
 import { useRouter } from "next/dist/client/router";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import shallow from "zustand/shallow";
 import Page from "../components/Page/Page";
@@ -10,6 +10,8 @@ import { Wine } from "../components/WineForm/WineForm";
 import useStore from "../utils/store";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import { arrayMoveImmutable } from "array-move";
+import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
+import { exportToExcel } from "../utils/export";
 
 type ItemProps = {
   children: string;
@@ -35,6 +37,7 @@ const SortableList = SortableContainer(({ dataSource }: ListProps) => (
 
 const Export: NextPage = () => {
   const { t } = useTranslation();
+  const { xs } = useBreakpoint();
   const router = useRouter();
   const wines = useStore((state) => state.wines, shallow);
 
@@ -50,6 +53,10 @@ const Export: NextPage = () => {
 
   const [variaties, setVariaties] = useState(getVarieties(wines));
 
+  useEffect(() => {
+    setVariaties(getVarieties(wines));
+  }, [wines, setVariaties, getVarieties]);
+
   const onSortEnd = useCallback(
     ({ oldIndex, newIndex }) => {
       setVariaties(arrayMoveImmutable(variaties, oldIndex, newIndex));
@@ -57,14 +64,27 @@ const Export: NextPage = () => {
     [variaties]
   );
 
+  const onExport = useCallback(() => {
+    exportToExcel(variaties, wines);
+  }, [variaties, wines]);
+
   return (
     <Page title={t("Create catalog")}>
       <Card
         title={t("Variety ordering")}
         extra={
-          <Button icon={<LeftOutlined />} onClick={() => router.push("/")}>
-            {t("Back")}
-          </Button>
+          <Space>
+            <Button
+              icon={<FileExcelOutlined />}
+              onClick={onExport}
+              type="primary"
+            >
+              {xs ? t("Export") : t("Export to Excel")}
+            </Button>
+            <Button icon={<LeftOutlined />} onClick={() => router.push("/")}>
+              {t("Back")}
+            </Button>
+          </Space>
         }
       >
         <SortableList onSortEnd={onSortEnd} dataSource={variaties} />

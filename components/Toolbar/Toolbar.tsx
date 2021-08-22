@@ -1,4 +1,4 @@
-import { DownOutlined, FileExcelOutlined } from "@ant-design/icons";
+import { BookOutlined, DownOutlined } from "@ant-design/icons";
 import { Button, Dropdown, Menu, Space } from "antd";
 import React from "react";
 import ClearButton from "../WineTable/ClearButton";
@@ -33,15 +33,10 @@ const Toolbar: React.FC = () => {
   return (
     <Space size="small" wrap>
       {!disabled && <AddButton />}
-      <Dropdown overlay={menu}>
-        <Button>
-          {t("Actions")} <DownOutlined />
-        </Button>
-      </Dropdown>
       {!disabled && (
         <Button
           type="primary"
-          icon={<FileExcelOutlined />}
+          icon={<BookOutlined />}
           onClick={() => {
             router.push("/export");
           }}
@@ -49,6 +44,11 @@ const Toolbar: React.FC = () => {
           {t("Create catalog")}
         </Button>
       )}
+      <Dropdown overlay={menu}>
+        <Button>
+          {t("Actions")} <DownOutlined />
+        </Button>
+      </Dropdown>
     </Space>
   );
 };

@@ -32,6 +32,8 @@
   "Record was updated.": "Záznam byl aktualizován.",
   "Record was added.": "Záznam byl přidán.",
   "Create catalog": "Vytvořit katalog",
+  "Export to Excel": "Exportovat do Excelu",
+  "Export": "Exportovat",
   "Export to JSON": "Exportovat do JSON",
   "Import from JSON": "Importovat z JSON",
   "Error loading file.": "Chyba při načítání souboru.",
