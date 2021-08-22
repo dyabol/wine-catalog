@@ -23,6 +23,8 @@ import {
 import ReadOnlyField from "../ReadOnlyField";
 import FormToolbar from "../FormToolbar/FormToolbar";
 import ResponsiveButton from "../ResponsiveButton/ResponsiveButton";
+import NameField from "../NameField/NameField";
+import AddressField from "../AddressField/AddressField";
 
 export type Wine = {
   id: number;
@@ -45,6 +47,7 @@ type Props = {
   getWine?: (id: number) => Wine | undefined;
   readOnly?: boolean;
   empty?: boolean;
+  names?: { value: string }[];
 };
 
 const WineForm: React.FC<Props> = ({
@@ -56,6 +59,7 @@ const WineForm: React.FC<Props> = ({
   getWine,
   readOnly,
   empty,
+  names,
 }) => {
   const { t } = useTranslation();
   const formRef = useRef<FormInstance>(null);
@@ -186,14 +190,14 @@ const WineForm: React.FC<Props> = ({
           }}
           rules={[{ required: true, message: t("Name is required.") }]}
         >
-          {readOnly ? <ReadOnlyField /> : <Input autoFocus={true} />}
+          {readOnly ? <ReadOnlyField /> : <NameField />}
         </Form.Item>
         <Form.Item
           label={t("Address")}
           name="address"
           rules={[{ required: true, message: t("Address is required.") }]}
         >
-          {readOnly ? <ReadOnlyField /> : <Input />}
+          {readOnly ? <ReadOnlyField /> : <AddressField />}
         </Form.Item>
         <Form.Item
           label={t("Variety")}

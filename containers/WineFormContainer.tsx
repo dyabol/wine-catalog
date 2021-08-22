@@ -51,6 +51,8 @@ const WineFormContainer: React.FC<Props> = ({ className }) => {
     []
   );
 
+  const names = useStore.getState().wines.map((w) => ({ value: w.name }));
+
   return (
     <WineForm
       onReset={onReset}

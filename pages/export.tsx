@@ -1,8 +1,8 @@
 import { FileExcelOutlined, LeftOutlined } from "@ant-design/icons";
-import { Button, Card, List, Space } from "antd";
+import { Badge, Button, Card, List, Space } from "antd";
 import type { NextPage } from "next";
 import { useRouter } from "next/dist/client/router";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import shallow from "zustand/shallow";
 import Page from "../components/Page/Page";
@@ -13,6 +13,11 @@ import { arrayMoveImmutable } from "array-move";
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 import { exportToExcel } from "../utils/export";
 
+type Variety = {
+  name: string;
+  type: "white" | "red";
+};
+
 type ItemProps = {
   children: string;
 };
@@ -21,9 +26,28 @@ type ListProps = {
   dataSource?: string[];
 };
 
-const SortableItem = SortableElement(({ children }: ItemProps) => (
-  <List.Item>{children}</List.Item>
-));
+const SortableItem = SortableElement(({ children }: ItemProps) => {
+  const {
+    t,
+    i18n: { language },
+  } = useTranslation();
+
+  const varieties: Variety[] = useMemo(() => {
+    return require(`../locales/${language}/variety.json`);
+  }, [language]);
+  const variety = varieties.find((v) => v.name === children);
+  if (variety) {
+    return (
+      <Badge.Ribbon
+        text={variety.type === "red" ? t("Red") : t("White")}
+        color={variety.type === "red" ? "red" : "lime"}
+      >
+        <List.Item>{children}</List.Item>
+      </Badge.Ribbon>
+    );
+  }
+  return <List.Item>{children}</List.Item>;
+});
 
 const SortableList = SortableContainer(({ dataSource }: ListProps) => (
   <List bordered>
