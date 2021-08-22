@@ -7,7 +7,21 @@ const getData = (variaties: string[], wines: Wine[]) => {
   const data: (string | number)[][] = [];
   let number = 0;
   variaties.forEach((variety) => {
-    data.push(["", variety]);
+    data.push(
+      ["", variety],
+      [],
+      [
+        "",
+        "Č.vz.",
+        "Jméno",
+        "Adresa",
+        "Ročník",
+        "Jakost",
+        "Pozn.",
+        "Počet lahví",
+      ],
+      []
+    );
     wines
       .filter((w) => w.variety === variety)
       .sort((a, b) => a.name.localeCompare(b.name))
@@ -24,11 +38,14 @@ const getData = (variaties: string[], wines: Wine[]) => {
           w.id,
           number,
           w.name,
+          w.address,
           w.year.format("YYYY"),
           props.join(", "),
           w.note ?? "",
+          w.number_of_bottles,
         ]);
       });
+    data.push([], []);
   });
   return data;
 };

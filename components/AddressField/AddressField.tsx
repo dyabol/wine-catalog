@@ -35,7 +35,6 @@ const AddressField: React.FC<Props<string>> = ({ value, onChange }) => {
 
   return (
     <AutoComplete
-      autoFocus={true}
       options={options}
       onSearch={onSearch}
       value={value}
