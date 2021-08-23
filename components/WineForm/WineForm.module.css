@@ -5,12 +5,17 @@
 }
 
 .footer::before {
-  border-top: 1px solid rgb(48, 48, 48);
+  background: #fff;
+  border-top: 1px solid rgb(240, 240, 240);
   content: "";
   position: absolute;
-  background: rgb(20, 20, 20);
   top: -16px;
   left: -24px;
   bottom: -16px;
   right: -24px;
+}
+
+body[data-theme="dark"] .footer::before {
+  border-top: 1px solid rgb(48, 48, 48);
+  background: rgb(20, 20, 20);
 }
