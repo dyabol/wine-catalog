@@ -104,7 +104,7 @@ const WineForm: React.FC<Props> = ({
     []
   );
 
-  const toolbar = !readOnly && (
+  const toolbar = (
     <Space size="small" style={{ justifyContent: "flex-end", width: "100%" }}>
       {selectedId !== undefined ? (
         <>
@@ -241,7 +241,7 @@ const WineForm: React.FC<Props> = ({
         <Form.Item label={t("Note")} name="note">
           {readOnly ? <ReadOnlyField /> : <Input />}
         </Form.Item>
-        <div className={styles.footer}>{toolbar}</div>
+        {!readOnly && <div className={styles.footer}>{toolbar}</div>}
       </Card>
     </Form>
   );

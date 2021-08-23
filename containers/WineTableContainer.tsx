@@ -1,6 +1,6 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { Wine } from "../components/WineForm/WineForm";
-import WineTable from "../components/WineTable/WineTable";
+import WineTable, { WineTableRef } from "../components/WineTable/WineTable";
 import useStore from "../utils/store";
 import shallow from "zustand/shallow";
 
@@ -9,6 +9,7 @@ type Props = {
 };
 
 const WineTableContainer: React.FC<Props> = ({ className }) => {
+  const ref = useRef<WineTableRef>(null);
   const [wines, inEditId] = useStore(
     (state) => [state.wines, state.inEditId],
     shallow
@@ -25,8 +26,19 @@ const WineTableContainer: React.FC<Props> = ({ className }) => {
     [setSelectedId]
   );
 
+  useEffect(() => {
+    useStore.subscribe(
+      () => {
+        ref.current?.goToEnd();
+      },
+      (state) => state.wines.length,
+      shallow
+    );
+  }, []);
+
   return (
     <WineTable
+      ref={ref}
       disabled={
         inEditId !== undefined ||
         (inEditId === undefined && selectedId === undefined)
