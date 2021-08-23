@@ -27,9 +27,13 @@ const WineTableContainer: React.FC<Props> = ({ className }) => {
   );
 
   useEffect(() => {
-    useStore.subscribe(
-      () => {
-        ref.current?.goToEnd();
+    let rendered = false;
+    useStore.subscribe<number>(
+      (length, prevLength) => {
+        if (rendered && length > prevLength) {
+          ref.current?.goToEnd();
+        }
+        rendered = true;
       },
       (state) => state.wines.length,
       shallow
