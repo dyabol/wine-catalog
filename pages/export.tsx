@@ -12,6 +12,7 @@ import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import { arrayMoveImmutable } from "array-move";
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 import { exportToExcel } from "../utils/export";
+import { LOCAL_STORAGE_VARIETY_ORDER } from "../utils/constants";
 
 type Variety = {
   name: string;
@@ -75,15 +76,40 @@ const Export: NextPage = () => {
     return varieties.sort((a, b) => a.localeCompare(b));
   }, []);
 
-  const [variaties, setVariaties] = useState(getVarieties(wines));
+  const initialVarieties = useMemo(() => {
+    try {
+      const va = getVarieties(wines);
+      const localData = localStorage.getItem(LOCAL_STORAGE_VARIETY_ORDER);
+      if (localData) {
+        const parsed: string[] = JSON.parse(localData);
+        va.forEach((v) => {
+          if (parsed.indexOf(v) === -1) {
+            parsed.push(v);
+          }
+        });
+        return parsed.filter((p) => va.indexOf(p) > -1);
+      }
+      return va;
+    } catch (error) {
+      return getVarieties(wines);
+    }
+  }, [getVarieties, wines]);
+
+  const [variaties, setVariaties] = useState(initialVarieties);
 
   useEffect(() => {
-    setVariaties(getVarieties(wines));
-  }, [wines, setVariaties, getVarieties]);
+    setVariaties(initialVarieties);
+  }, [initialVarieties, setVariaties]);
 
   const onSortEnd = useCallback(
     ({ oldIndex, newIndex }) => {
-      setVariaties(arrayMoveImmutable(variaties, oldIndex, newIndex));
+      console.log("ORDER");
+      const ordered = arrayMoveImmutable(variaties, oldIndex, newIndex);
+      setVariaties(ordered);
+      localStorage.setItem(
+        LOCAL_STORAGE_VARIETY_ORDER,
+        JSON.stringify(ordered)
+      );
     },
     [variaties]
   );
