@@ -25,6 +25,7 @@ import FormToolbar from "../FormToolbar/FormToolbar";
 import ResponsiveButton from "../ResponsiveButton/ResponsiveButton";
 import NameField from "../NameField/NameField";
 import AddressField from "../AddressField/AddressField";
+import styles from "./WineForm.module.css";
 
 export type Wine = {
   id: number;
@@ -240,7 +241,7 @@ const WineForm: React.FC<Props> = ({
         <Form.Item label={t("Note")} name="note">
           {readOnly ? <ReadOnlyField /> : <Input />}
         </Form.Item>
-        {toolbar}
+        <div className={styles.footer}>{toolbar}</div>
       </Card>
     </Form>
   );

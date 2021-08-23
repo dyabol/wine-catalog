@@ -1,0 +1,16 @@
+.footer {
+  margin-top: 40px;
+  position: sticky;
+  bottom: 16px;
+}
+
+.footer::before {
+  border-top: 1px solid rgb(48, 48, 48);
+  content: "";
+  position: absolute;
+  background: rgb(20, 20, 20);
+  top: -16px;
+  left: -24px;
+  bottom: -16px;
+  right: -24px;
+}
