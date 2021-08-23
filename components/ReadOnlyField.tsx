@@ -1,4 +1,4 @@
-import { Input } from "antd";
+import { Input, Space, Tag } from "antd";
 import moment from "moment";
 import React from "react";
 
@@ -11,7 +11,15 @@ const ReadOnlyField: React.FC<Props> = ({ value, dateFormat }) => {
   if (moment.isMoment(value)) {
     result = value.format(dateFormat);
   } else if (Array.isArray(value)) {
-    result = value.join(", ");
+    return (
+      <Space wrap size="small">
+        {value.map((v, key) => (
+          <Tag key={key} color="default" style={{ marginRight: 0 }}>
+            {v}
+          </Tag>
+        ))}
+      </Space>
+    );
   } else {
     result = value ?? "";
   }

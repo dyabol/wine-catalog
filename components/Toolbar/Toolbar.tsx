@@ -44,11 +44,13 @@ const Toolbar: React.FC = () => {
           {t("Create catalog")}
         </Button>
       )}
-      <Dropdown overlay={menu}>
-        <Button>
-          {t("Actions")} <DownOutlined />
-        </Button>
-      </Dropdown>
+      {!disabled && (
+        <Dropdown overlay={menu}>
+          <Button>
+            {t("Actions")} <DownOutlined />
+          </Button>
+        </Dropdown>
+      )}
     </Space>
   );
 };
