@@ -10,6 +10,7 @@ import "../utils/i18n";
 import useStore from "../utils/store";
 import { useRouter } from "next/router";
 import NProgress from "nprogress";
+import "nprogress/nprogress.css";
 
 const themes = {
   light: "/style/antd.css",
@@ -25,21 +26,24 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, [loadWines]);
 
   useEffect(() => {
-    const handleStart = (url: string) =>
-      url !== router.asPath && NProgress.start();
-    const handleComplete = (url: string) =>
-      url === router.asPath && NProgress.done();
+    const handleStart = () => {
+      NProgress.start();
+    };
+    const handleStop = () => {
+      NProgress.done();
+    };
 
     router.events.on("routeChangeStart", handleStart);
-    router.events.on("routeChangeComplete", handleComplete);
-    router.events.on("routeChangeError", handleComplete);
+    router.events.on("routeChangeComplete", handleStop);
+    router.events.on("routeChangeError", handleStop);
 
     return () => {
       router.events.off("routeChangeStart", handleStart);
-      router.events.off("routeChangeComplete", handleComplete);
-      router.events.off("routeChangeError", handleComplete);
+      router.events.off("routeChangeComplete", handleStop);
+      router.events.off("routeChangeError", handleStop);
     };
-  });
+  }, [router]);
+
   return (
     <ThemeSwitcherProvider defaultTheme={theme} themeMap={themes}>
       <ConfigProvider locale={csCZ}>
