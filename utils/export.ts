@@ -1,27 +1,41 @@
-import XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import moment from "moment";
 import { Wine } from "../components/WineForm/WineForm";
+import ExcelJS from "exceljs";
 
-const getData = (variaties: string[], wines: Wine[]) => {
-  const data: (string | number)[][] = [];
+const setData = (
+  sheet: ExcelJS.Worksheet,
+  variaties: string[],
+  wines: Wine[]
+) => {
   let number = 0;
   variaties.forEach((variety) => {
-    data.push(
-      ["", variety],
-      [],
-      [
-        "",
-        "Č.vz.",
-        "Jméno",
-        "Adresa",
-        "Ročník",
-        "Jakost",
-        "Pozn.",
-        "Počet lahví",
-      ],
-      []
-    );
+    const headingRow = sheet.addRow(["", variety]);
+    headingRow.getCell(2).font = {
+      bold: true,
+      size: 20,
+      underline: true,
+    };
+    headingRow.number;
+    sheet.mergeCells(headingRow.number, 2, headingRow.number, 7);
+    sheet.addRow([]);
+    const headerRow = sheet.addRow([
+      "",
+      "Č.vz.",
+      "Jméno",
+      "Adresa",
+      "Ročník",
+      "Jakost",
+      "Pozn.",
+      "Počet lahví",
+    ]);
+    for (let i = 2; i < 8; i++) {
+      headerRow.getCell(i).border = {
+        bottom: { style: "thin", color: { argb: "00000000" } },
+      };
+    }
+    headerRow.getCell(2);
+    sheet.addRow([]);
     wines
       .filter((w) => w.variety === variety)
       .sort((a, b) => a.name.localeCompare(b.name))
@@ -34,45 +48,41 @@ const getData = (variaties: string[], wines: Wine[]) => {
         if (w.properties) {
           props = [...props, w.properties];
         }
-        data.push([
+        const dataRow = sheet.addRow([
           w.id,
           number,
           w.name,
           w.address,
-          w.year.format("YYYY"),
+          parseInt(w.year.format("YYYY"), 10),
           props.join(", "),
           w.note ?? "",
           w.number_of_bottles,
         ]);
+        dataRow.getCell(1).font = {
+          bold: true,
+        };
       });
-    data.push([], []);
+    sheet.addRow([]);
+    sheet.addRow([]);
   });
-  return data;
 };
 
-export const exportToExcel = (variaties: string[], wines: Wine[]) => {
-  const wb = XLSX.utils.book_new();
-  wb.Props = {
-    Title: `Katalog vín ${new Date().getFullYear()}`,
-    Author: "katalog.skluzice.cz",
-    CreatedDate: new Date(),
-  };
-  wb.SheetNames.push("Katalog vín");
-  const ws_data = getData(variaties, wines);
-  const ws = XLSX.utils.aoa_to_sheet(ws_data);
-  wb.Sheets["Katalog vín"] = ws;
+export const exportToExcel = async (variaties: string[], wines: Wine[]) => {
+  const workbook = new ExcelJS.Workbook();
+  workbook.creator = "katalog.hromek.cz";
+  workbook.created = new Date();
 
-  const wbout = XLSX.write(wb, { bookType: "xlsx", type: "binary" });
+  const sheet = workbook.addWorksheet("Katalog vín");
+  setData(sheet, variaties, wines);
 
-  function s2ab(s: string) {
-    var buf = new ArrayBuffer(s.length); //convert s to arrayBuffer
-    var view = new Uint8Array(buf); //create uint8array as viewer
-    for (var i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xff; //convert to octet
-    return buf;
-  }
+  const buffer = await workbook.xlsx.writeBuffer();
+  const fileType =
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+  const fileExtension = ".xlsx";
 
+  const blob = new Blob([buffer], { type: fileType });
   saveAs(
-    new Blob([s2ab(wbout)], { type: "application/octet-stream" }),
-    `katalog_${moment().format("YYYY-MM-DD_HH-mm-ss")}.xlsx`
+    blob,
+    `katalog_${moment().format("YYYY-MM-DD_HH-mm-ss")}${fileExtension}`
   );
 };

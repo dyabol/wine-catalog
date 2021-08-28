@@ -32,7 +32,6 @@ const Toolbar: React.FC = () => {
 
   return (
     <Space size="small" wrap>
-      {!disabled && <AddButton />}
       {!disabled && (
         <Button
           type="primary"
@@ -44,6 +43,7 @@ const Toolbar: React.FC = () => {
           {t("Create catalog")}
         </Button>
       )}
+      {!disabled && <AddButton />}
       {!disabled && (
         <Dropdown overlay={menu}>
           <Button>
