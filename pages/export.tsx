@@ -82,7 +82,7 @@ const Export: NextPage = () => {
   const router = useRouter();
   const wines = useStore((state) => state.wines, shallow);
   const aliasesRef = useRef<Record<string, Input | null>>({});
-  const defaultValues = useRef<Record<string, string>>({});
+  const [defaultValues, setDefaultValues] = useState<Record<string, string>>();
 
   const getVarieties = useCallback((wines: Wine[]): string[] => {
     const varieties: string[] = [];
@@ -116,7 +116,11 @@ const Export: NextPage = () => {
   useEffect(() => {
     const localData = localStorage.getItem(PROPS_ALIASES);
     if (localData) {
-      defaultValues.current = JSON.parse(localData);
+      try {
+        setDefaultValues(JSON.parse(localData));
+      } catch (error) {
+        setDefaultValues({});
+      }
     }
   }, []);
 
@@ -194,19 +198,21 @@ const Export: NextPage = () => {
         </Col>
         <Col sm={12} xs={24}>
           <Card title={t("Properties aliases")}>
-            <Space direction="vertical" style={{ width: "100%" }}>
-              {getProperties(wines).map((p, i) => (
-                <Input
-                  defaultValue={defaultValues.current[p]}
-                  name={p}
-                  addonBefore={p}
-                  key={i}
-                  placeholder={p}
-                  ref={(ref) => (aliasesRef.current[p] = ref)}
-                  onChange={saveAliases}
-                />
-              ))}
-            </Space>
+            {defaultValues && (
+              <Space direction="vertical" style={{ width: "100%" }}>
+                {getProperties(wines).map((p, i) => (
+                  <Input
+                    defaultValue={defaultValues[p]}
+                    name={p}
+                    addonBefore={p}
+                    key={i}
+                    placeholder={p}
+                    ref={(ref) => (aliasesRef.current[p] = ref)}
+                    onChange={saveAliases}
+                  />
+                ))}
+              </Space>
+            )}
           </Card>
         </Col>
       </Row>
