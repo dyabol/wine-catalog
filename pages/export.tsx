@@ -1,15 +1,5 @@
 import { FileExcelOutlined, LeftOutlined } from "@ant-design/icons";
-import {
-  Badge,
-  Button,
-  Card,
-  Col,
-  Input,
-  List,
-  Row,
-  Space,
-  Tooltip,
-} from "antd";
+import { Badge, Button, Card, Col, Empty, Input, List, Row, Space } from "antd";
 import type { NextPage } from "next";
 import { useRouter } from "next/dist/client/router";
 import React, {
@@ -121,6 +111,8 @@ const Export: NextPage = () => {
       } catch (error) {
         setDefaultValues({});
       }
+    } else {
+      setDefaultValues({});
     }
   }, []);
 
@@ -174,6 +166,7 @@ const Export: NextPage = () => {
     return props;
   };
 
+  const wineProps = getProperties(wines);
   return (
     <Page title={t("Create catalog")}>
       <Row gutter={[16, 16]}>
@@ -193,26 +186,33 @@ const Export: NextPage = () => {
         </Col>
         <Col sm={12} xs={24}>
           <Card title={t("Variety ordering")}>
-            <SortableList onSortEnd={onSortEnd} dataSource={variaties} />
+            {variaties.length > 0 ? (
+              <SortableList onSortEnd={onSortEnd} dataSource={variaties} />
+            ) : (
+              <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+            )}
           </Card>
         </Col>
         <Col sm={12} xs={24}>
           <Card title={t("Properties aliases")}>
-            {defaultValues && (
-              <Space direction="vertical" style={{ width: "100%" }}>
-                {getProperties(wines).map((p, i) => (
-                  <Input
-                    defaultValue={defaultValues[p]}
-                    name={p}
-                    addonBefore={p}
-                    key={i}
-                    placeholder={p}
-                    ref={(ref) => (aliasesRef.current[p] = ref)}
-                    onChange={saveAliases}
-                  />
-                ))}
-              </Space>
-            )}
+            {defaultValues &&
+              (wineProps.length > 0 ? (
+                <Space direction="vertical" style={{ width: "100%" }}>
+                  {wineProps.map((p, i) => (
+                    <Input
+                      defaultValue={defaultValues[p]}
+                      name={p}
+                      addonBefore={p}
+                      key={i}
+                      placeholder={p}
+                      ref={(ref) => (aliasesRef.current[p] = ref)}
+                      onChange={saveAliases}
+                    />
+                  ))}
+                </Space>
+              ) : (
+                <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+              ))}
           </Card>
         </Col>
       </Row>

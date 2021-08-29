@@ -31,7 +31,11 @@ const Toolbar: React.FC = () => {
   );
 
   return (
-    <Space size="small" wrap>
+    <Space
+      size="small"
+      wrap
+      style={{ width: "100%", justifyContent: "flex-end" }}
+    >
       {!disabled && (
         <Button
           type="primary"
