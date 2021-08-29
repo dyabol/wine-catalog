@@ -26,6 +26,7 @@
   "Record id": "Číslo vzorku",
   "Clear all": "Smazat vše",
   "Are you sure you want to permanently delete all records?": "Opravdu chcete trvale odstranit všechny záznamy?",
+  "Are you sure you want to permanently delete this record?": "Opravdu chcete trvale odstranit tento záznam?",
   "OK": "OK",
   "Cancel": "Zrušit",
   "All was cleared.": "Vše bylo vymazáno.",
@@ -52,5 +53,7 @@
   "Properties aliases": "Aliasy vlastnosti",
   "Page not found": "Stránka nenalezena",
   "Sorry, the page you visited does not exist.": "Omlouváme se, ale stránka neexistuje.",
-  "Back Home": "Hlavní stránka"
+  "Back Home": "Hlavní stránka",
+  "Wine management": "Správa vín",
+  "Export settings": "Nastavení exportu"
 }

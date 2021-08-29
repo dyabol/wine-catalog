@@ -1,4 +1,4 @@
-import { Col, Row } from "antd";
+import { Col, PageHeader, Row } from "antd";
 import Card from "antd/lib/card";
 import type { NextPage } from "next";
 import React from "react";
@@ -13,12 +13,13 @@ const Home: NextPage = () => {
   const { t } = useTranslation();
   return (
     <Page title={t("Catalog of wines")}>
+      <PageHeader title={t("Wine management")} extra={<Toolbar />} />
       <Row gutter={[16, 16]}>
-        <Col flex={2} className={styles.formWrapper}>
+        <Col flex={3} className={styles.formWrapper}>
           <WineFormContainer />
         </Col>
         <Col flex={4}>
-          <Card className={styles.wineTable} extra={<Toolbar />}>
+          <Card className={styles.wineTable}>
             <WineTableContainer />
           </Card>
         </Col>

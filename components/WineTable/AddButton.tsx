@@ -1,8 +1,8 @@
 import { PlusOutlined } from "@ant-design/icons";
-import { Button } from "antd";
 import React, { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import useStore from "../../utils/store";
+import ResponsiveButton from "../ResponsiveButton/ResponsiveButton";
 
 const AddButton: React.FC = () => {
   const { t } = useTranslation();
@@ -12,9 +12,14 @@ const AddButton: React.FC = () => {
     setSelectedId(undefined);
   }, [setSelectedId]);
   return (
-    <Button onClick={addRecord} icon={<PlusOutlined />} type="primary" ghost>
-      {t("Add wine")}
-    </Button>
+    <ResponsiveButton
+      onClick={addRecord}
+      icon={<PlusOutlined />}
+      type="primary"
+      ghost
+    >
+      {t("Add")}
+    </ResponsiveButton>
   );
 };
 

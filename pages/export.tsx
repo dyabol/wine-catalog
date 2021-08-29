@@ -1,5 +1,16 @@
 import { FileExcelOutlined, LeftOutlined } from "@ant-design/icons";
-import { Badge, Button, Card, Col, Empty, Input, List, Row, Space } from "antd";
+import {
+  Badge,
+  Button,
+  Card,
+  Col,
+  Empty,
+  Input,
+  List,
+  PageHeader,
+  Row,
+  Space,
+} from "antd";
 import type { NextPage } from "next";
 import { useRouter } from "next/dist/client/router";
 import React, {
@@ -169,21 +180,21 @@ const Export: NextPage = () => {
   const wineProps = getProperties(wines);
   return (
     <Page title={t("Create catalog")}>
+      <PageHeader
+        title={t("Export settings")}
+        onBack={() => router.push("/")}
+        extra={[
+          <Button
+            key={0}
+            icon={<FileExcelOutlined />}
+            onClick={onExport}
+            type="primary"
+          >
+            {xs ? t("Export") : t("Export to Excel")}
+          </Button>,
+        ]}
+      />
       <Row gutter={[16, 16]}>
-        <Col span={24} style={{ textAlign: "right" }}>
-          <Space>
-            <Button
-              icon={<FileExcelOutlined />}
-              onClick={onExport}
-              type="primary"
-            >
-              {xs ? t("Export") : t("Export to Excel")}
-            </Button>
-            <Button icon={<LeftOutlined />} onClick={() => router.push("/")}>
-              {t("Back")}
-            </Button>
-          </Space>
-        </Col>
         <Col sm={12} xs={24}>
           <Card title={t("Variety ordering")}>
             {variaties.length > 0 ? (
