@@ -1,4 +1,4 @@
-import { FileExcelOutlined, LeftOutlined } from "@ant-design/icons";
+import { FileExcelOutlined, InfoCircleOutlined } from "@ant-design/icons";
 import {
   Badge,
   Button,
@@ -10,6 +10,7 @@ import {
   PageHeader,
   Row,
   Space,
+  Tooltip,
 } from "antd";
 import type { NextPage } from "next";
 import { useRouter } from "next/dist/client/router";
@@ -30,6 +31,7 @@ import { arrayMoveImmutable } from "array-move";
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 import { exportToExcel } from "../utils/export";
 import { LOCAL_STORAGE_VARIETY_ORDER, PROPS_ALIASES } from "../utils/constants";
+import styles from "../styles/Export.module.css";
 
 type Variety = {
   name: string;
@@ -60,7 +62,7 @@ const SortableItem = SortableElement(({ children }: ItemProps) => {
         text={variety.type === "red" ? t("Red") : t("White")}
         color={variety.type === "red" ? "red" : "lime"}
       >
-        <List.Item>{children}</List.Item>
+        <List.Item className={styles.orderList}>{children}</List.Item>
       </Badge.Ribbon>
     );
   }
@@ -196,7 +198,25 @@ const Export: NextPage = () => {
       />
       <Row gutter={[16, 16]}>
         <Col sm={12} xs={24}>
-          <Card title={t("Variety ordering")}>
+          <Card
+            title={
+              <Space>
+                <span>{t("Variety ordering")}</span>
+                <Tooltip
+                  title={t(
+                    "Drag to change the order of the varieties in the catalog."
+                  )}
+                >
+                  <InfoCircleOutlined
+                    style={{
+                      cursor: "help",
+                      color: "rgba(255, 255, 255, 0.45)",
+                    }}
+                  />
+                </Tooltip>
+              </Space>
+            }
+          >
             {variaties.length > 0 ? (
               <SortableList onSortEnd={onSortEnd} dataSource={variaties} />
             ) : (
@@ -205,7 +225,25 @@ const Export: NextPage = () => {
           </Card>
         </Col>
         <Col sm={12} xs={24}>
-          <Card title={t("Properties aliases")}>
+          <Card
+            title={
+              <Space>
+                <span>{t("Properties aliases")}</span>
+                <Tooltip
+                  title={t(
+                    "Fill in the shortcuts that will appear in the catalog."
+                  )}
+                >
+                  <InfoCircleOutlined
+                    style={{
+                      cursor: "help",
+                      color: "rgba(255, 255, 255, 0.45)",
+                    }}
+                  />
+                </Tooltip>
+              </Space>
+            }
+          >
             {defaultValues &&
               (wineProps.length > 0 ? (
                 <Space direction="vertical" style={{ width: "100%" }}>

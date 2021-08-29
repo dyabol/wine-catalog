@@ -15,7 +15,7 @@ const Home: NextPage = () => {
     <Page title={t("Catalog of wines")}>
       <PageHeader title={t("Wine management")} extra={<Toolbar />} />
       <Row gutter={[16, 16]}>
-        <Col flex={3} className={styles.formWrapper}>
+        <Col flex={2} className={styles.formWrapper}>
           <WineFormContainer />
         </Col>
         <Col flex={4}>

@@ -215,7 +215,11 @@ const WineForm: React.FC<Props> = ({
           {readOnly ? (
             <ReadOnlyField dateFormat="YYYY" />
           ) : (
-            <DatePicker picker="year" disabledDate={(d) => d.isAfter()} />
+            <DatePicker
+              picker="year"
+              disabledDate={(d) => d.isAfter()}
+              allowClear={false}
+            />
           )}
         </Form.Item>
         <Form.Item

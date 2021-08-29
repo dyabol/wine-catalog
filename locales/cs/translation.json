@@ -55,5 +55,7 @@
   "Sorry, the page you visited does not exist.": "Omlouváme se, ale stránka neexistuje.",
   "Back Home": "Hlavní stránka",
   "Wine management": "Správa vín",
-  "Export settings": "Nastavení exportu"
+  "Export settings": "Nastavení exportu",
+  "Drag to change the order of the varieties in the catalog.": "Přetažením změníte pořadí odrůd v katalogu.",
+  "Fill in the shortcuts that will appear in the catalog.": "Vyplňte zkratky, které se budou zobrazovat v katalogu."
 }
