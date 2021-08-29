@@ -1,3 +1,7 @@
+#__next {
+  height: 100%;
+}
+
 .ant-table-row {
   cursor: pointer;
 }

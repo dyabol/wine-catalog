@@ -21,15 +21,15 @@ const Page: React.FC<Props> = ({ children, title }) => (
       ></meta>
       <link rel="icon" href="/favicon.ico" />
     </Head>
-    <Layout>
+    <Layout className={styles.main}>
       <AntHeader>
         <Header />
       </AntHeader>
       <Content className={styles.content}>{children}</Content>
+      <Footer className={styles.footer}>
+        Made with ❤️ by <a href="https://www.hromek.cz">hromek.cz</a>
+      </Footer>
     </Layout>
-    <Footer className={styles.footer}>
-      Made with ❤️ by <a href="https://www.hromek.cz">hromek.cz</a>
-    </Footer>
   </>
 );
 
