@@ -110,14 +110,6 @@ const WineForm: React.FC<Props> = ({
         <>
           <ResponsiveButton
             responsive={false}
-            type="primary"
-            htmlType="submit"
-            icon={<SaveOutlined />}
-          >
-            {t("Save")}
-          </ResponsiveButton>
-          <ResponsiveButton
-            responsive={false}
             type="default"
             htmlType="button"
             icon={<CloseOutlined />}
@@ -125,17 +117,17 @@ const WineForm: React.FC<Props> = ({
           >
             {t("Discard")}
           </ResponsiveButton>
-        </>
-      ) : (
-        <>
           <ResponsiveButton
             responsive={false}
             type="primary"
             htmlType="submit"
-            icon={<PlusOutlined />}
+            icon={<SaveOutlined />}
           >
-            {t("Add")}
+            {t("Save")}
           </ResponsiveButton>
+        </>
+      ) : (
+        <>
           {!empty && (
             <ResponsiveButton
               responsive={false}
@@ -147,6 +139,14 @@ const WineForm: React.FC<Props> = ({
               {t("Cancel")}
             </ResponsiveButton>
           )}
+          <ResponsiveButton
+            responsive={false}
+            type="primary"
+            htmlType="submit"
+            icon={<PlusOutlined />}
+          >
+            {t("Add")}
+          </ResponsiveButton>
         </>
       )}
     </Space>

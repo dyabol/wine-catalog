@@ -30,13 +30,18 @@ const Toolbar: React.FC = () => {
     </Menu>
   );
 
-  return (
-    <Space
-      size="small"
-      wrap
-      style={{ width: "100%", justifyContent: "flex-end" }}
-    >
-      {!disabled && (
+  if (!disabled) {
+    return (
+      <Space
+        size="small"
+        wrap
+        style={{ width: "100%", justifyContent: "flex-end" }}
+      >
+        <Dropdown overlay={menu}>
+          <Button>
+            {t("Actions")} <DownOutlined />
+          </Button>
+        </Dropdown>
         <Button
           type="primary"
           icon={<BookOutlined />}
@@ -46,16 +51,10 @@ const Toolbar: React.FC = () => {
         >
           {t("Create catalog")}
         </Button>
-      )}
-      {!disabled && (
-        <Dropdown overlay={menu}>
-          <Button>
-            {t("Actions")} <DownOutlined />
-          </Button>
-        </Dropdown>
-      )}
-    </Space>
-  );
+      </Space>
+    );
+  }
+  return null;
 };
 
 export default Toolbar;
