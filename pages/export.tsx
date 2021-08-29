@@ -1,8 +1,24 @@
 import { FileExcelOutlined, LeftOutlined } from "@ant-design/icons";
-import { Badge, Button, Card, List, Space } from "antd";
+import {
+  Badge,
+  Button,
+  Card,
+  Col,
+  Input,
+  List,
+  Row,
+  Space,
+  Tooltip,
+} from "antd";
 import type { NextPage } from "next";
 import { useRouter } from "next/dist/client/router";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useTranslation } from "react-i18next";
 import shallow from "zustand/shallow";
 import Page from "../components/Page/Page";
@@ -12,7 +28,7 @@ import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import { arrayMoveImmutable } from "array-move";
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 import { exportToExcel } from "../utils/export";
-import { LOCAL_STORAGE_VARIETY_ORDER } from "../utils/constants";
+import { LOCAL_STORAGE_VARIETY_ORDER, PROPS_ALIASES } from "../utils/constants";
 
 type Variety = {
   name: string;
@@ -65,6 +81,8 @@ const Export: NextPage = () => {
   const { xs } = useBreakpoint();
   const router = useRouter();
   const wines = useStore((state) => state.wines, shallow);
+  const aliasesRef = useRef<Record<string, Input | null>>({});
+  const defaultValues = useRef<Record<string, string>>({});
 
   const getVarieties = useCallback((wines: Wine[]): string[] => {
     const varieties: string[] = [];
@@ -95,6 +113,13 @@ const Export: NextPage = () => {
     }
   }, [getVarieties, wines]);
 
+  useEffect(() => {
+    const localData = localStorage.getItem(PROPS_ALIASES);
+    if (localData) {
+      defaultValues.current = JSON.parse(localData);
+    }
+  }, []);
+
   const [variaties, setVariaties] = useState(initialVarieties);
 
   useEffect(() => {
@@ -103,7 +128,6 @@ const Export: NextPage = () => {
 
   const onSortEnd = useCallback(
     ({ oldIndex, newIndex }) => {
-      console.log("ORDER");
       const ordered = arrayMoveImmutable(variaties, oldIndex, newIndex);
       setVariaties(ordered);
       localStorage.setItem(
@@ -114,15 +138,42 @@ const Export: NextPage = () => {
     [variaties]
   );
 
+  const getAliases = () => {
+    const result: Record<string, string> = {};
+    Object.keys(aliasesRef.current).map((key) => {
+      const value = aliasesRef.current[key]?.input.value;
+      if (value) {
+        result[key] = value;
+      }
+    });
+    return result;
+  };
+
+  const saveAliases = () => {
+    localStorage.setItem(PROPS_ALIASES, JSON.stringify(getAliases()));
+  };
+
   const onExport = useCallback(() => {
-    exportToExcel(variaties, wines);
+    const aliases = getAliases();
+    exportToExcel(variaties, wines, aliases);
   }, [variaties, wines]);
+
+  const getProperties = (wines: Wine[]): string[] => {
+    const props: string[] = [];
+    wines.forEach((w) => {
+      w.properties?.forEach((p) => {
+        if (props.indexOf(p) === -1) {
+          props.push(p);
+        }
+      });
+    });
+    return props;
+  };
 
   return (
     <Page title={t("Create catalog")}>
-      <Card
-        title={t("Variety ordering")}
-        extra={
+      <Row gutter={[16, 16]}>
+        <Col span={24} style={{ textAlign: "right" }}>
           <Space>
             <Button
               icon={<FileExcelOutlined />}
@@ -135,10 +186,30 @@ const Export: NextPage = () => {
               {t("Back")}
             </Button>
           </Space>
-        }
-      >
-        <SortableList onSortEnd={onSortEnd} dataSource={variaties} />
-      </Card>
+        </Col>
+        <Col sm={12} xs={24}>
+          <Card title={t("Variety ordering")}>
+            <SortableList onSortEnd={onSortEnd} dataSource={variaties} />
+          </Card>
+        </Col>
+        <Col sm={12} xs={24}>
+          <Card title={t("Properties aliases")}>
+            <Space direction="vertical" style={{ width: "100%" }}>
+              {getProperties(wines).map((p, i) => (
+                <Input
+                  defaultValue={defaultValues.current[p]}
+                  name={p}
+                  addonBefore={p}
+                  key={i}
+                  placeholder={p}
+                  ref={(ref) => (aliasesRef.current[p] = ref)}
+                  onChange={saveAliases}
+                />
+              ))}
+            </Space>
+          </Card>
+        </Col>
+      </Row>
     </Page>
   );
 };

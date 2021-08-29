@@ -6,7 +6,8 @@ import ExcelJS from "exceljs";
 const setData = (
   sheet: ExcelJS.Worksheet,
   variaties: string[],
-  wines: Wine[]
+  wines: Wine[],
+  aliases: Record<string, string>
 ) => {
   let number = 0;
   variaties.forEach((variety) => {
@@ -46,7 +47,7 @@ const setData = (
           props.push(w.sugar_content);
         }
         if (w.properties) {
-          props = [...props, w.properties];
+          props = [...props, ...w.properties];
         }
         const dataRow = sheet.addRow([
           w.id,
@@ -54,7 +55,7 @@ const setData = (
           w.name,
           w.address,
           parseInt(w.year.format("YYYY"), 10),
-          props.join(", "),
+          props.map((p) => aliases[p] ?? p).join(", "),
           w.note ?? "",
           w.number_of_bottles,
         ]);
@@ -67,13 +68,17 @@ const setData = (
   });
 };
 
-export const exportToExcel = async (variaties: string[], wines: Wine[]) => {
+export const exportToExcel = async (
+  variaties: string[],
+  wines: Wine[],
+  aliases: Record<string, string>
+) => {
   const workbook = new ExcelJS.Workbook();
   workbook.creator = "katalog.hromek.cz";
   workbook.created = new Date();
 
   const sheet = workbook.addWorksheet("Katalog vín");
-  setData(sheet, variaties, wines);
+  setData(sheet, variaties, wines, aliases);
 
   const buffer = await workbook.xlsx.writeBuffer();
   const fileType =
