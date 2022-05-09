@@ -12,6 +12,7 @@ import ReadOnlyField from "../../components/ReadOnlyField";
 import { ColumnType } from "antd/lib/table";
 import moment from "moment";
 import styles from "./WineFormContainer.module.css";
+import { CloseOutlined, PlusOutlined } from "@ant-design/icons";
 
 type Props = {
   className?: string;
@@ -166,6 +167,8 @@ const WineFormContainer: React.FC<Props> = ({ className }) => {
           onOk={saveDuplicate}
           onCancel={canceDumplicate}
           okText={t("Add anyway")}
+          okButtonProps={{ icon: <PlusOutlined /> }}
+          cancelButtonProps={{ icon: <CloseOutlined /> }}
           cancelText={t("Cancel")}
           width={1000}
         >
