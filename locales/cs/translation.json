@@ -1,6 +1,6 @@
 {
   "Id": "#",
-  "Catalog of wines": "Katalog vín 🍷",
+  "Catalog of wines": "Katalog vín",
   "Name": "Jméno",
   "Name is required.": "Je potřeba vyplnit jméno.",
   "Address": "Adresa",
@@ -57,5 +57,9 @@
   "Wine management": "Správa vín",
   "Export settings": "Nastavení exportu",
   "Drag to change the order of the varieties in the catalog.": "Přetažením změníte pořadí odrůd v katalogu.",
-  "Fill in the shortcuts that will appear in the catalog.": "Vyplňte zkratky, které se budou zobrazovat v katalogu."
+  "Fill in the shortcuts that will appear in the catalog.": "Vyplňte zkratky, které se budou zobrazovat v katalogu.",
+  "Id_short": "Č.vz.",
+  "Quality": "Jakost",
+  "Note_short": "Pozn.",
+  "Points": "Body"
 }

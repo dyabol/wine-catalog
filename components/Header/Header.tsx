@@ -9,7 +9,7 @@ const Header: React.FC = () => {
     <Row wrap={false}>
       <Col flex="none">
         <h1 style={{ color: "rgba(255, 255, 255, 0.85)" }}>
-          {t("Catalog of wines")}
+          {t("Catalog of wines")} 🍷
         </h1>
       </Col>
       <Col flex="auto" style={{ textAlign: "right" }}>

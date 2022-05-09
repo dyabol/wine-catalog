@@ -2,6 +2,8 @@ import { saveAs } from "file-saver";
 import moment from "moment";
 import { Wine } from "../components/WineForm/WineForm";
 import ExcelJS from "exceljs";
+import i18n from "i18next";
+import useStore from "./store";
 
 const setData = (
   sheet: ExcelJS.Worksheet,
@@ -20,22 +22,42 @@ const setData = (
     headingRow.number;
     sheet.mergeCells(headingRow.number, 2, headingRow.number, 7);
     sheet.addRow([]);
-    const headerRow = sheet.addRow([
-      "",
-      "Č.vz.",
-      "Jméno",
-      "Adresa",
-      "Ročník",
-      "Jakost",
-      "Pozn.",
-      "Počet lahví",
-    ]);
-    for (let i = 2; i < 8; i++) {
-      headerRow.getCell(i).border = {
-        bottom: { style: "thin", color: { argb: "00000000" } },
-      };
+    if (useStore.getState().scored) {
+      const headerRow = sheet.addRow([
+        "",
+        i18n.t("Id_short"),
+        i18n.t("Name"),
+        i18n.t("Address"),
+        i18n.t("Year"),
+        i18n.t("Quality"),
+        i18n.t("Note_short"),
+        i18n.t("Points"),
+        i18n.t("Number of bottles"),
+      ]);
+      for (let i = 2; i < 9; i++) {
+        headerRow.getCell(i).border = {
+          bottom: { style: "thin", color: { argb: "00000000" } },
+        };
+      }
+      headerRow.getCell(2);
+    } else {
+      const headerRow = sheet.addRow([
+        "",
+        i18n.t("Id_short"),
+        i18n.t("Name"),
+        i18n.t("Address"),
+        i18n.t("Year"),
+        i18n.t("Quality"),
+        i18n.t("Note_short"),
+        i18n.t("Number of bottles"),
+      ]);
+      for (let i = 2; i < 8; i++) {
+        headerRow.getCell(i).border = {
+          bottom: { style: "thin", color: { argb: "00000000" } },
+        };
+      }
+      headerRow.getCell(2);
     }
-    headerRow.getCell(2);
     sheet.addRow([]);
     wines
       .filter((w) => w.variety === variety)
@@ -49,19 +71,36 @@ const setData = (
         if (w.properties) {
           props = [...props, ...w.properties];
         }
-        const dataRow = sheet.addRow([
-          w.id,
-          number,
-          w.name,
-          w.address,
-          parseInt(w.year.format("YYYY"), 10),
-          props.map((p) => aliases[p] ?? p).join(", "),
-          w.note ?? "",
-          w.number_of_bottles,
-        ]);
-        dataRow.getCell(1).font = {
-          bold: true,
-        };
+        if (useStore.getState().scored) {
+          const dataRow = sheet.addRow([
+            w.id,
+            number,
+            w.name,
+            w.address,
+            parseInt(w.year.format("YYYY"), 10),
+            props.map((p) => aliases[p] ?? p).join(", "),
+            w.note ?? "",
+            w.points,
+            w.number_of_bottles,
+          ]);
+          dataRow.getCell(1).font = {
+            bold: true,
+          };
+        } else {
+          const dataRow = sheet.addRow([
+            w.id,
+            number,
+            w.name,
+            w.address,
+            parseInt(w.year.format("YYYY"), 10),
+            props.map((p) => aliases[p] ?? p).join(", "),
+            w.note ?? "",
+            w.number_of_bottles,
+          ]);
+          dataRow.getCell(1).font = {
+            bold: true,
+          };
+        }
       });
     sheet.addRow([]);
     sheet.addRow([]);
@@ -77,7 +116,7 @@ export const exportToExcel = async (
   workbook.creator = "katalog.hromek.cz";
   workbook.created = new Date();
 
-  const sheet = workbook.addWorksheet("Katalog vín");
+  const sheet = workbook.addWorksheet(i18n.t("Catalog of wines"));
   setData(sheet, variaties, wines, aliases);
 
   const buffer = await workbook.xlsx.writeBuffer();

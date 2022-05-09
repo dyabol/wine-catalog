@@ -33,6 +33,7 @@ export type Wine = {
   name: string;
   note?: string;
   number_of_bottles: number;
+  points: number;
   properties?: string[];
   sugar_content?: string;
   variety: string;
@@ -48,7 +49,7 @@ type Props = {
   getWine?: (id: number) => Wine | undefined;
   readOnly?: boolean;
   empty?: boolean;
-  names?: { value: string }[];
+  scored?: boolean;
 };
 
 const WineForm: React.FC<Props> = ({
@@ -60,7 +61,7 @@ const WineForm: React.FC<Props> = ({
   getWine,
   readOnly,
   empty,
-  names,
+  scored,
 }) => {
   const { t } = useTranslation();
   const formRef = useRef<FormInstance>(null);
@@ -236,6 +237,22 @@ const WineForm: React.FC<Props> = ({
         >
           {readOnly ? <ReadOnlyField /> : <InputNumber min={1} />}
         </Form.Item>
+        {scored && (
+          <Form.Item
+            label={t("Points")}
+            name="points"
+            rules={[
+              { required: true, message: t("Number of points is required.") },
+              {
+                type: "number",
+                min: 1,
+                message: t("The minimum number of points is 0."),
+              },
+            ]}
+          >
+            {readOnly ? <ReadOnlyField /> : <InputNumber min={1} />}
+          </Form.Item>
+        )}
         <Form.Item label={t("Sugar content")} name="sugar_content">
           {readOnly ? <ReadOnlyField /> : <SugarSelect />}
         </Form.Item>

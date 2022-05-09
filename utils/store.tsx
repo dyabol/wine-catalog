@@ -9,6 +9,8 @@ type StoreType = {
   nextId: number;
   selectedId: number | undefined;
   inEditId: number | undefined;
+  scored: boolean;
+  toggleScored: () => void;
   setInEditId: (id: number | undefined) => void;
   clearWines: () => void;
   loadWines: () => void;
@@ -42,6 +44,8 @@ const useStore = create<StoreType>((set) => ({
   nextId: 1,
   selectedId: undefined,
   inEditId: undefined,
+  scored: true,
+  toggleScored: () => set(({ scored }) => ({ scored: !scored })),
   setInEditId: (inEditId) => set(() => ({ inEditId })),
   clearWines: () =>
     set(() => ({ wines: [], nextId: 1, selectedId: undefined })),

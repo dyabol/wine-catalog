@@ -20,6 +20,8 @@ const WineFormContainer: React.FC<Props> = ({ className }) => {
     shallow
   );
 
+  const scored = useStore((state) => state.scored);
+
   const empty = useStore((state) => state.wines.length === 0);
 
   const id = useStore((state) => state.nextId);
@@ -53,6 +55,7 @@ const WineFormContainer: React.FC<Props> = ({ className }) => {
 
   return (
     <WineForm
+      scored={scored}
       onReset={onReset}
       onFinish={onFinish}
       className={className}

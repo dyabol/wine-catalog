@@ -1,18 +1,23 @@
 import { BookOutlined, DownOutlined } from "@ant-design/icons";
-import { Button, Dropdown, Menu, Space } from "antd";
+import { Button, Checkbox, Dropdown, Menu, Space } from "antd";
 import React from "react";
-import ClearButton from "../WineTable/ClearButton";
-import ExportButton from "../WineTable/ExportButton";
-import ImportButton from "../WineTable/ImportButton";
+import ClearButton from "../../components/WineTable/ClearButton";
+import ExportButton from "../../components/WineTable/ExportButton";
+import ImportButton from "../../components/WineTable/ImportButton";
 import shallow from "zustand/shallow";
 import useStore from "../../utils/store";
-import AddButton from "../WineTable/AddButton";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "next/dist/client/router";
 
-const Toolbar: React.FC = () => {
+const ToolbarContainer: React.FC = () => {
   const { t } = useTranslation();
   const router = useRouter();
+
+  const [scored, onScoredChange] = useStore(({ scored, toggleScored }) => [
+    scored,
+    toggleScored,
+  ]);
+
   const [disabled, empty] = useStore(
     (state) => [
       state.inEditId !== undefined ||
@@ -37,6 +42,9 @@ const Toolbar: React.FC = () => {
         wrap
         style={{ width: "100%", justifyContent: "flex-end" }}
       >
+        <Checkbox onChange={onScoredChange} checked={scored}>
+          Bodovaný
+        </Checkbox>
         <Dropdown overlay={menu}>
           <Button>
             {t("Actions")} <DownOutlined />
@@ -54,7 +62,17 @@ const Toolbar: React.FC = () => {
       </Space>
     );
   }
-  return null;
+  return (
+    <Space
+      size="small"
+      wrap
+      style={{ width: "100%", justifyContent: "flex-end" }}
+    >
+      <Checkbox onChange={onScoredChange} checked={scored}>
+        Bodovaný
+      </Checkbox>
+    </Space>
+  );
 };
 
-export default Toolbar;
+export default ToolbarContainer;
