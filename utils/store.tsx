@@ -1,7 +1,7 @@
 import create from "zustand";
 import shallow from "zustand/shallow";
 import { Wine } from "../components/WineForm/WineForm";
-import { LOCAL_STORAGE_WINES } from "./constants";
+import { LOCAL_STORAGE_SCORED, LOCAL_STORAGE_WINES } from "./constants";
 import { parseWines, stringifyWines } from "./json";
 
 type StoreType = {
@@ -14,6 +14,7 @@ type StoreType = {
   setInEditId: (id: number | undefined) => void;
   clearWines: () => void;
   loadWines: () => void;
+  loadScored: () => void;
   setWines: (wines: Wine[]) => void;
   addWine: (wine: Wine) => void;
   updateWine: (wine: Wine) => void;
@@ -45,7 +46,19 @@ const useStore = create<StoreType>((set) => ({
   selectedId: undefined,
   inEditId: undefined,
   scored: true,
-  toggleScored: () => set(({ scored }) => ({ scored: !scored })),
+  toggleScored: () =>
+    set(({ scored }) => {
+      localStorage.setItem(LOCAL_STORAGE_SCORED, !scored ? "true" : "false");
+      return { scored: !scored };
+    }),
+  loadScored: () =>
+    set(() => {
+      const scored = localStorage.getItem(LOCAL_STORAGE_SCORED);
+      if (scored === "false") {
+        return { scored: false };
+      }
+      return { scored: true };
+    }),
   setInEditId: (inEditId) => set(() => ({ inEditId })),
   clearWines: () =>
     set(() => ({ wines: [], nextId: 1, selectedId: undefined })),

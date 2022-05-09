@@ -20,10 +20,13 @@ const themes = {
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const loadWines = useStore((state) => state.loadWines);
+  const loadScored = useStore((state) => state.loadScored);
   const [theme] = useTheme();
+
   useEffect(() => {
     loadWines();
-  }, [loadWines]);
+    loadScored();
+  }, [loadWines, loadScored]);
 
   useEffect(() => {
     const handleStart = () => {

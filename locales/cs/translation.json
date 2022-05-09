@@ -12,7 +12,9 @@
   "Note": "Poznámka",
   "Number of bottles": "Počet láhví",
   "Number of bottles is required.": "Počet láhví je vyžadován.",
+  "Number of points is required.": "Počet bodů je vyžadován.",
   "The minimum number of bottles is 1.": "Minimální počet láhví je 1.",
+  "The minimum number of points is 0.": "Minimální počet bodů je 0.",
   "Sugar content": "Cukernatost",
   "Sweet": "Sladké",
   "Semi-sweet": "Polosladké",
@@ -61,5 +63,8 @@
   "Id_short": "Č.vz.",
   "Quality": "Jakost",
   "Note_short": "Pozn.",
-  "Points": "Body"
+  "Points": "Body",
+  "Potential duplications": "Potenciální duplicity",
+  "Add anyway": "Přesto přidat",
+  "Scored": "Bodovaný"
 }

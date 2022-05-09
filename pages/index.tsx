@@ -5,7 +5,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import Page from "../components/Page/Page";
 import ToolbarContainer from "../containers/ToolbarContainer/ToolbarContainer";
-import WineFormContainer from "../containers/WineFormContainer";
+import WineFormContainer from "../containers/WineFormContainer/WineFormContainer";
 import WineTableContainer from "../containers/WineTableContainer";
 import styles from "../styles/Home.module.css";
 

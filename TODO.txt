@@ -1,6 +1,3 @@
 TODO:
-- kontrola duplicit
-- bodovani
-- default aliasu
 - navod
 - tlacitko zrusit neni dost intuitivni

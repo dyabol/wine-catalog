@@ -43,7 +43,7 @@ const ToolbarContainer: React.FC = () => {
         style={{ width: "100%", justifyContent: "flex-end" }}
       >
         <Checkbox onChange={onScoredChange} checked={scored}>
-          Bodovaný
+          {t("Scored")}
         </Checkbox>
         <Dropdown overlay={menu}>
           <Button>
@@ -63,13 +63,9 @@ const ToolbarContainer: React.FC = () => {
     );
   }
   return (
-    <Space
-      size="small"
-      wrap
-      style={{ width: "100%", justifyContent: "flex-end" }}
-    >
+    <Space size="small" wrap style={{ height: "32px" }}>
       <Checkbox onChange={onScoredChange} checked={scored}>
-        Bodovaný
+        {t("Scored")}
       </Checkbox>
     </Space>
   );

@@ -1,0 +1,9 @@
+.highlited {
+    background: #ff00002b;
+}
+
+.highlited_text {
+    background: #ff00002b;
+    padding: 0.5rem 1rem;
+    margin-bottom: 1rem;
+}
